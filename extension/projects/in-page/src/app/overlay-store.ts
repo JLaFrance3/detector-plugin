@@ -34,7 +34,7 @@ export class OverlayStore {
   readonly badges = signal<readonly BadgeModel[]>([]);
 
   private readonly entries = new Map<HTMLImageElement, Entry>();
-  private readonly resizeObserver = new ResizeObserver(() => this.scheduleMeasure());
+  private resizeObserver?: ResizeObserver;
   private nextId = 1;
   private frame = 0;
   private listening = false;
@@ -44,16 +44,16 @@ export class OverlayStore {
     if (existing) {
       existing.view = view;
     } else {
+      this.listen();
       this.entries.set(image, { id: this.nextId++, view });
-      this.resizeObserver.observe(image);
+      this.resizeObserver?.observe(image);
     }
-    this.listen();
     this.scheduleMeasure();
   }
 
   remove(image: HTMLImageElement): void {
     if (!this.entries.delete(image)) return;
-    this.resizeObserver.unobserve(image);
+    this.resizeObserver?.unobserve(image);
     this.scheduleMeasure();
   }
 
@@ -64,6 +64,7 @@ export class OverlayStore {
     // Capture phase so scrolling inside any nested scroll container is seen too.
     window.addEventListener('scroll', onChange, { capture: true, passive: true });
     window.addEventListener('resize', onChange, { passive: true });
+    this.resizeObserver = new ResizeObserver(onChange);
     this.resizeObserver.observe(document.documentElement);
   }
 
@@ -80,7 +81,7 @@ export class OverlayStore {
     for (const [image, entry] of this.entries) {
       if (!image.isConnected) {
         this.entries.delete(image);
-        this.resizeObserver.unobserve(image);
+        this.resizeObserver?.unobserve(image);
         continue;
       }
       const rect = image.getBoundingClientRect();

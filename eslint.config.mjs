@@ -65,6 +65,11 @@ export default tseslint.config(
     rules: bannedRules,
   },
   {
+    // End-to-end scripts run in Node but pass functions to the browser via page.evaluate().
+    files: ['extension/e2e/**/*.mjs'],
+    languageOptions: { globals: { ...globals.node, ...globals.browser } },
+  },
+  {
     files: ['**/*.ts'],
     extends: [js.configs.recommended, ...tseslint.configs.strict, ...tseslint.configs.stylistic],
     rules: {
