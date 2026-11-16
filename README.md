@@ -37,6 +37,8 @@ Then open `chrome://extensions`, turn on Developer mode, choose "Load unpacked" 
 | `npm run trace` | Regenerates `docs/traceability.md` |
 | `npm run verify` | Lint, type checks, unit tests and a strict traceability check in one go |
 | `npm run e2e` | Browser tests of the built extension |
+| `npm run security` | Dependency audit, bundle checks and banned-API scan (see `docs/security-review.md`) |
+| `npm run demo` | Serves the demo sample page on http://localhost:8080 |
 
 ## Second-opinion backend (optional)
 

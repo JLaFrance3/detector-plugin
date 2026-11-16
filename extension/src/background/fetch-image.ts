@@ -1,6 +1,7 @@
 // REQ-F-002: fetches an image's bytes in the service worker using the extension's host
 // permissions. Any failure (network error, HTTP error, timeout, not an image, too large)
 // yields null, which the caller turns into verdict None with no badge.
+import { exceedsPixelLimit } from '../shared/image-size';
 import { MAX_IMAGE_BYTES } from '../shared/messages';
 
 export const FETCH_TIMEOUT_MS = 10_000;
@@ -109,6 +110,11 @@ export async function fetchImageBytes(
     const mimeType = sniffImageType(bytes);
     if (!mimeType) {
       onError?.('not a supported image format');
+      return null;
+    }
+    // A decompression bomb: few bytes, enormous canvas. Never hand it to a decoder.
+    if (exceedsPixelLimit(bytes)) {
+      onError?.('too many pixels');
       return null;
     }
     return { bytes, mimeType };

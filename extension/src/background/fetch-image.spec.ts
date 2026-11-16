@@ -126,6 +126,25 @@ describe('fetchImageBytes', () => {
     ).toBe(2048);
   });
 
+  it('REQ-NF-001: an image declaring more than 50 megapixels is skipped, not decoded', async () => {
+    const be = (n: number) => [(n >>> 24) & 255, (n >>> 16) & 255, (n >>> 8) & 255, n & 255];
+    const bomb = Uint8Array.from([
+      ...[0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a],
+      ...be(13),
+      ...[0x49, 0x48, 0x44, 0x52],
+      ...be(60000),
+      ...be(60000),
+      ...[8, 2, 0, 0, 0],
+    ]);
+    const reasons: string[] = [];
+    const image = await fetchImageBytes('https://cdn.example/bomb.png', {
+      fetchFn: respond(bomb),
+      onError: (r) => reasons.push(r),
+    });
+    expect(image).toBeNull();
+    expect(reasons).toEqual(['too many pixels']);
+  });
+
   it('REQ-F-001: SVG and non-image responses are skipped even if labelled as images', async () => {
     const svg = respond('<svg xmlns="http://www.w3.org/2000/svg"/>', {
       headers: { 'content-type': 'image/jpeg' },

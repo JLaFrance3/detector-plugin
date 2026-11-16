@@ -18,7 +18,8 @@
     "trace": "node scripts/trace.mjs",
     "e2e": "npm run e2e --workspace extension",
     "verify": "npm run lint && npm run typecheck && npm test && node scripts/trace.mjs --strict",
-    "demo": "node scripts/serve-demo.mjs"
+    "demo": "node scripts/serve-demo.mjs",
+    "security": "node scripts/security-check.mjs"
   },
   "engines": {
     "node": ">=22"
