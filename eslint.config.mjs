@@ -66,7 +66,7 @@ export default tseslint.config(
   },
   {
     // End-to-end scripts run in Node but pass functions to the browser via page.evaluate().
-    files: ['extension/e2e/**/*.mjs'],
+    files: ['extension/e2e/**/*.mjs', 'extension/eval/**/*.mjs'],
     languageOptions: { globals: { ...globals.node, ...globals.browser, chrome: 'readonly' } },
   },
   {
@@ -79,6 +79,11 @@ export default tseslint.config(
       '@typescript-eslint/consistent-type-imports': 'error',
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     },
+  },
+  {
+    // The demo page script runs in the browser.
+    files: ['demo/**/*.js'],
+    languageOptions: { globals: { ...globals.browser } },
   },
   {
     // Tests feed hostile strings (such as script URLs) to validators as data.

@@ -87,5 +87,8 @@ export const DEFAULT_SETTINGS: Settings = {
   cloudEnabled: false,
 };
 
-/** Default detector threshold T (REQ-F-005). Calibrated in TASK-022. */
-export const DEFAULT_THRESHOLD = 0.9;
+/**
+ * Detector threshold T (REQ-F-005). Calibrated in TASK-022: the lowest value with a real-photo
+ * false positive rate of at most 5% on the evaluation set (see extension/eval/RESULTS.md).
+ */
+export const DEFAULT_THRESHOLD = 0.5;

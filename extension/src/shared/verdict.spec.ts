@@ -59,7 +59,9 @@ describe('decideVerdict', () => {
   it('REQ-F-005: row 3, detector score at or above the threshold is Likely with a percentage', () => {
     const at = decideVerdict(signals({ detector: { score: DEFAULT_THRESHOLD } }));
     expect(at.verdict).toBe('likely');
-    expect(at.confidence).toEqual({ kind: 'score', percent: 90 });
+    expect(at.confidence).toEqual({ kind: 'score', percent: 50 });
+    // The calibrated default (TASK-022).
+    expect(DEFAULT_THRESHOLD).toBe(0.5);
 
     const above = decideVerdict(signals({ detector: { score: 0.934 } }));
     expect(above.confidence).toEqual({ kind: 'score', percent: 93 });
@@ -71,7 +73,7 @@ describe('decideVerdict', () => {
   });
 
   it('REQ-F-005: row 4, a score below the threshold is None', () => {
-    const result = decideVerdict(signals({ detector: { score: 0.8999 } }));
+    const result = decideVerdict(signals({ detector: { score: DEFAULT_THRESHOLD - 0.0001 } }));
     expect(result.verdict).toBe('none');
     expect(result.label).toBeNull();
     expect(result.confidence).toBeNull();

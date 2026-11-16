@@ -4,7 +4,7 @@
 | --- | --- |
 | Project | CYB 505 Practitioner Assignment (Fall 2026) |
 | Owner | Jean LaFrance (solo) |
-| Version | 0.3 draft, 2026-11-15 (spike results: detector weights per ADR-008, two open items resolved) |
+| Version | 0.4 draft, 2026-11-16 (threshold calibrated to 0.50; three open items resolved) |
 | Source | [Research brief](https://claude.ai/artifact/EJUyaN6fcZo5qUfvjfCkLS), decisions agreed 2026-11-04 |
 
 ## 1. Purpose and scope
@@ -25,7 +25,7 @@ The goal is simple warnings when an image is definitely or very likely AI-genera
 | Trusted signer | A C2PA signing certificate that chains to the C2PA trust list |
 | AI source type | IPTC `digitalSourceType` of `trainedAlgorithmicMedia` (AI-generated) or `compositeWithTrainedAlgorithmicMedia` (AI-edited) |
 | Detector score | Probability (0 to 1) from the on-device model that an image is AI-generated |
-| Threshold (T) | Minimum detector score that produces a "Likely" verdict. Default 0.90, to be calibrated (REQ-NF-006) |
+| Threshold (T) | Minimum detector score that produces a "Likely" verdict. Calibrated to 0.50 (TASK-022, REQ-NF-006; see `extension/eval/RESULTS.md`) |
 | Verdict | One of: **Definite**, **Likely**, **None** (see REQ-F-005) |
 
 ## 3. Architecture summary
@@ -253,5 +253,5 @@ All text taken from C2PA manifests or IPTC/XMP metadata is untrusted.
 | --- | --- | --- |
 | Model download size and inference time in the browser | REQ-F-006, REQ-NF-001 | **Resolved 2026-11-15 (TASK-005):** 87 MB (WebGPU, full precision) or 23 MB (WASM, 8-bit). Median inference 47 ms on WebGPU and 440 ms on WASM, both inside the 1 s budget |
 | Sightengine operations per AI-image check (sample response shows 5) | REQ-NF-005 | First backend test |
-| Calibrated threshold T | REQ-F-005, REQ-NF-006 | After evaluation set is built |
+| Calibrated threshold T | REQ-F-005, REQ-NF-006 | **Resolved 2026-11-16 (TASK-022):** T = 0.50. On 228 scored images: 0 of 128 real photos flagged, 57 of 100 AI images detected (64% of originals, 50% of recompressed copies) |
 | Whether `c2pa-web` exposes trust-list validation directly or it must be configured | REQ-SEC-007 | **Resolved 2026-11-15 (TASK-004):** it must be configured. The extension bundles the C2PA trust lists and passes them as trust anchors; a `validation_state` of `Trusted` is required for Definite |

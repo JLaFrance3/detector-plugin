@@ -6,3 +6,4 @@ docs/traceability.md
 extension/public/vendor
 *.md
 backend/dist
+extension/eval/RESULTS.md
