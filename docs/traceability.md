@@ -27,8 +27,8 @@ Requirements: 38 · Tasks: 26 · Test files: 2 · Tested requirements: 2
 | REQ-UI-006 Style isolation | H | [TASK-003](../tasks/TASK-003-spike-angular-shadow-root.md) (todo), [TASK-023](../tasks/TASK-023-performance-and-sites.md) (todo) | extension/projects/in-page/src/app/app.spec.ts | - |
 | REQ-NF-001 Page performance | H | [TASK-005](../tasks/TASK-005-spike-detector-offscreen.md) (todo), [TASK-012](../tasks/TASK-012-detector-service.md) (todo), [TASK-023](../tasks/TASK-023-performance-and-sites.md) (todo) | - | - |
 | REQ-NF-002 Works without the backend | H | [TASK-019](../tasks/TASK-019-second-opinion-flow.md) (todo) | - | - |
-| REQ-NF-003 Platform | H | [TASK-001](../tasks/TASK-001-repo-scaffold.md) (todo), [TASK-002](../tasks/TASK-002-build-pipeline.md) (todo) | - | - |
-| REQ-NF-004 Code quality and traceability | M | [TASK-001](../tasks/TASK-001-repo-scaffold.md) (todo), [TASK-024](../tasks/TASK-024-traceability-script.md) (in-progress) | - | - |
+| REQ-NF-003 Platform | H | [TASK-001](../tasks/TASK-001-repo-scaffold.md) (done), [TASK-002](../tasks/TASK-002-build-pipeline.md) (done) | - | a573896, bc4024d |
+| REQ-NF-004 Code quality and traceability | M | [TASK-001](../tasks/TASK-001-repo-scaffold.md) (done), [TASK-024](../tasks/TASK-024-traceability-script.md) (done) | - | a573896 |
 | REQ-NF-005 Budget and quotas | H | [TASK-018](../tasks/TASK-018-backend-check-endpoint.md) (todo) | - | - |
 | REQ-NF-006 Accuracy evaluation | M | [TASK-022](../tasks/TASK-022-evaluation-and-threshold.md) (todo) | - | - |
 | REQ-SEC-001 Sanitize C2PA and metadata fields | H | [TASK-011](../tasks/TASK-011-metadata-sanitizer.md) (todo) | - | - |
@@ -38,8 +38,8 @@ Requirements: 38 · Tasks: 26 · Test files: 2 · Tested requirements: 2
 | REQ-SEC-005 Backend hardening | H | [TASK-018](../tasks/TASK-018-backend-check-endpoint.md) (todo), [TASK-020](../tasks/TASK-020-deploy-backend.md) (todo) | - | - |
 | REQ-SEC-006 No server-side URL fetching | H | [TASK-018](../tasks/TASK-018-backend-check-endpoint.md) (todo) | - | - |
 | REQ-SEC-007 C2PA trust | H | [TASK-004](../tasks/TASK-004-spike-c2pa-offscreen.md) (todo), [TASK-009](../tasks/TASK-009-c2pa-reader.md) (todo) | - | - |
-| REQ-SEC-008 Extension platform rules | H | [TASK-002](../tasks/TASK-002-build-pipeline.md) (todo), [TASK-005](../tasks/TASK-005-spike-detector-offscreen.md) (todo), [TASK-025](../tasks/TASK-025-security-review.md) (todo) | - | - |
-| REQ-SEC-009 Dependencies | M | [TASK-001](../tasks/TASK-001-repo-scaffold.md) (todo), [TASK-025](../tasks/TASK-025-security-review.md) (todo) | - | - |
+| REQ-SEC-008 Extension platform rules | H | [TASK-002](../tasks/TASK-002-build-pipeline.md) (done), [TASK-005](../tasks/TASK-005-spike-detector-offscreen.md) (todo), [TASK-025](../tasks/TASK-025-security-review.md) (todo) | - | bc4024d |
+| REQ-SEC-009 Dependencies | M | [TASK-001](../tasks/TASK-001-repo-scaffold.md) (done), [TASK-025](../tasks/TASK-025-security-review.md) (todo) | - | a573896 |
 | REQ-PRV-001 Local by default | H | [TASK-012](../tasks/TASK-012-detector-service.md) (todo), [TASK-025](../tasks/TASK-025-security-review.md) (todo) | - | - |
 | REQ-PRV-002 Minimal cloud upload | M | [TASK-018](../tasks/TASK-018-backend-check-endpoint.md) (todo), [TASK-019](../tasks/TASK-019-second-opinion-flow.md) (todo) | - | - |
 | REQ-PRV-003 No telemetry | H | [TASK-025](../tasks/TASK-025-security-review.md) (todo) | - | - |

@@ -1,7 +1,7 @@
 ---
 id: TASK-024
 title: Traceability script
-status: in-progress
+status: done
 milestone: M0
 requirements: [REQ-NF-004]
 depends_on: [TASK-001]
@@ -13,9 +13,9 @@ depends_on: [TASK-001]
 
 ## Acceptance criteria
 
-- [ ] Lists every REQ with its tasks and the tests that mention it
-- [ ] Flags REQs with no task and tasks pointing at unknown REQs
-- [ ] Runs with plain Node, no dependencies
+- [x] Lists every REQ with its tasks and the tests that mention it
+- [x] Flags REQs with no task and tasks pointing at unknown REQs
+- [x] Runs with plain Node, no dependencies
 
 ## Notes
 

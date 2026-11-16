@@ -13,7 +13,7 @@ Workflow: set `status: in-progress` when starting, tick acceptance criteria as t
 | [TASK-003](TASK-003-spike-angular-shadow-root.md) | Spike: Angular rendering in a content script shadow root | REQ-UI-006, REQ-SEC-002 | TASK-002 | todo |
 | [TASK-004](TASK-004-spike-c2pa-offscreen.md) | Spike: read C2PA in the offscreen document | REQ-F-003, REQ-SEC-007 | TASK-002 | todo |
 | [TASK-005](TASK-005-spike-detector-offscreen.md) | Spike: run the detector model in the offscreen document | REQ-F-006, REQ-NF-001, REQ-SEC-008 | TASK-002 | todo |
-| [TASK-024](TASK-024-traceability-script.md) | Traceability script | REQ-NF-004 | TASK-001 | in-progress |
+| [TASK-024](TASK-024-traceability-script.md) | Traceability script | REQ-NF-004 | TASK-001 | done |
 
 ## M1: Core pipeline (week of Nov 16)
 
