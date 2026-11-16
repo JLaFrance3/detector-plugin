@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI Image Detector demo</title>
+    <link rel="stylesheet" href="demo.css" />
+  </head>
+  <body>
+    <header>
+      <h1>AI Image Detector demo page</h1>
+      <p>
+        Load the extension, then look at the top-right corner of each image. Click a badge to see
+        the evidence. Images are grouped by the result the extension should give.
+      </p>
+      <p id="status" role="status">Loading samples…</p>
+    </header>
+
+    <main>
+      <section id="definite">
+        <h2>Definite: signed Content Credentials say AI</h2>
+        <p>
+          Downloads from AI tools that sign their output (ChatGPT, Gemini, Adobe Firefly). The
+          signature is valid, the signer is on the C2PA trust list and the manifest declares an AI
+          source. Expect a square <strong>AI</strong> badge.
+        </p>
+        <div class="grid" data-section="definite"></div>
+      </section>
+
+      <section id="likely">
+        <h2>Likely: AI images with the metadata stripped</h2>
+        <p>
+          The same kind of image after a screenshot or a social media upload: no provenance left, so
+          the on-device detector decides. Expect a round <strong>AI?</strong> badge with a
+          percentage.
+        </p>
+        <div class="grid" data-section="likely"></div>
+      </section>
+
+      <section id="none">
+        <h2>None: real photographs</h2>
+        <p>
+          Expect no badge. That is not a claim that these are real: the extension only ever marks AI
+          involvement.
+        </p>
+        <div class="grid" data-section="none"></div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Image credits are in <a href="CREDITS.md">CREDITS.md</a>.</p>
+    </footer>
+
+    <script src="demo.js"></script>
+  </body>
+</html>

@@ -14,11 +14,11 @@ Requirements: 38 · Tasks: 26 · Test files: 20 · Tested requirements: 31
 | REQ-F-006 On-device AI detection | H | [TASK-005](../tasks/TASK-005-spike-detector-offscreen.md) (done), [TASK-012](../tasks/TASK-012-detector-service.md) (done) | extension/src/background/pipeline.spec.ts, extension/src/offscreen/analyze.spec.ts, extension/src/shared/task-queue.spec.ts | 0209db0, cf73432 |
 | REQ-F-007 Show the badge | H | [TASK-015](../tasks/TASK-015-badge-component.md) (done) | extension/projects/in-page/src/app/app.spec.ts | 86ccf19 |
 | REQ-F-008 Details popover | H | [TASK-016](../tasks/TASK-016-details-popover.md) (done) | extension/projects/in-page/src/app/app.spec.ts, extension/src/shared/details.spec.ts | 86ccf19 |
-| REQ-F-009 Cloud second opinion | M | [TASK-019](../tasks/TASK-019-second-opinion-flow.md) (done) | extension/src/background/second-opinion.spec.ts, extension/src/shared/messages.spec.ts | - |
+| REQ-F-009 Cloud second opinion | M | [TASK-019](../tasks/TASK-019-second-opinion-flow.md) (done) | extension/src/background/second-opinion.spec.ts, extension/src/shared/messages.spec.ts | 1baba9c |
 | REQ-F-010 Settings popup | M | [TASK-017](../tasks/TASK-017-settings-popup.md) (done) | extension/projects/popup/src/app/app.spec.ts, extension/src/shared/messages.spec.ts, extension/src/shared/settings.spec.ts | 053e7fe |
 | REQ-F-011 Cache results | H | [TASK-014](../tasks/TASK-014-verdict-cache.md) (done) | extension/src/background/cache.spec.ts, extension/src/background/pipeline.spec.ts | e005d12 |
 | REQ-F-012 Backend check endpoint | M | [TASK-018](../tasks/TASK-018-backend-check-endpoint.md) (in-progress) | backend/src/app.spec.ts, backend/src/sightengine.spec.ts | a40f839 |
-| REQ-F-013 Demo sample page | M | [TASK-021](../tasks/TASK-021-demo-sample-page.md) (todo) | - | - |
+| REQ-F-013 Demo sample page | M | [TASK-021](../tasks/TASK-021-demo-sample-page.md) (blocked) | - | - |
 | REQ-UI-001 Badge size and placement | H | [TASK-015](../tasks/TASK-015-badge-component.md) (done) | extension/projects/in-page/src/app/app.spec.ts | 86ccf19 |
 | REQ-UI-002 Distinguishable states | H | [TASK-015](../tasks/TASK-015-badge-component.md) (done) | extension/projects/in-page/src/app/app.spec.ts, extension/src/shared/verdict.spec.ts | 86ccf19 |
 | REQ-UI-003 No "real" claims | H | [TASK-015](../tasks/TASK-015-badge-component.md) (done) | extension/projects/in-page/src/app/app.spec.ts, extension/projects/popup/src/app/app.spec.ts, extension/src/shared/details.spec.ts, extension/src/shared/messages.spec.ts, extension/src/shared/verdict.spec.ts | 86ccf19 |
@@ -26,11 +26,11 @@ Requirements: 38 · Tasks: 26 · Test files: 20 · Tested requirements: 31
 | REQ-UI-005 Details popover | H | [TASK-016](../tasks/TASK-016-details-popover.md) (done) | extension/projects/in-page/src/app/app.spec.ts, extension/src/shared/popover-position.spec.ts | 86ccf19 |
 | REQ-UI-006 Style isolation | H | [TASK-003](../tasks/TASK-003-spike-angular-shadow-root.md) (done), [TASK-023](../tasks/TASK-023-performance-and-sites.md) (todo) | extension/projects/in-page/src/app/app.spec.ts | 610307d, 86c3ba5 |
 | REQ-NF-001 Page performance | H | [TASK-005](../tasks/TASK-005-spike-detector-offscreen.md) (done), [TASK-012](../tasks/TASK-012-detector-service.md) (done), [TASK-023](../tasks/TASK-023-performance-and-sites.md) (todo) | extension/src/shared/xmp.spec.ts | 0209db0, cf73432 |
-| REQ-NF-002 Works without the backend | H | [TASK-019](../tasks/TASK-019-second-opinion-flow.md) (done) | extension/src/background/second-opinion.spec.ts | - |
+| REQ-NF-002 Works without the backend | H | [TASK-019](../tasks/TASK-019-second-opinion-flow.md) (done) | extension/src/background/second-opinion.spec.ts | 1baba9c |
 | REQ-NF-003 Platform | H | [TASK-001](../tasks/TASK-001-repo-scaffold.md) (done), [TASK-002](../tasks/TASK-002-build-pipeline.md) (done) | - | a573896, bc4024d |
 | REQ-NF-004 Code quality and traceability | M | [TASK-001](../tasks/TASK-001-repo-scaffold.md) (done), [TASK-024](../tasks/TASK-024-traceability-script.md) (done) | - | a573896, abaa6c8, 6bf3def |
 | REQ-NF-005 Budget and quotas | H | [TASK-018](../tasks/TASK-018-backend-check-endpoint.md) (in-progress) | backend/src/app.spec.ts, backend/src/rate-limit.spec.ts, backend/src/sightengine.spec.ts | a40f839 |
-| REQ-NF-006 Accuracy evaluation | M | [TASK-022](../tasks/TASK-022-evaluation-and-threshold.md) (todo) | - | - |
+| REQ-NF-006 Accuracy evaluation | M | [TASK-022](../tasks/TASK-022-evaluation-and-threshold.md) (done) | - | - |
 | REQ-SEC-001 Sanitize C2PA and metadata fields | H | [TASK-011](../tasks/TASK-011-metadata-sanitizer.md) (done) | extension/src/offscreen/analyze.spec.ts, extension/src/shared/messages.spec.ts, extension/src/shared/sanitize-text.spec.ts, extension/src/shared/sanitize.spec.ts, extension/src/shared/xmp.spec.ts | a4f96b6 |
 | REQ-SEC-002 Safe rendering | H | [TASK-003](../tasks/TASK-003-spike-angular-shadow-root.md) (done), [TASK-015](../tasks/TASK-015-badge-component.md) (done), [TASK-016](../tasks/TASK-016-details-popover.md) (done), [TASK-025](../tasks/TASK-025-security-review.md) (todo) | extension/projects/in-page/src/app/app.spec.ts | 610307d, 86c3ba5, 86ccf19 |
 | REQ-SEC-003 Validate internal messages | H | [TASK-006](../tasks/TASK-006-message-contracts.md) (done) | extension/src/background/second-opinion.spec.ts, extension/src/shared/messages.spec.ts | 22fc7b3 |
@@ -41,7 +41,7 @@ Requirements: 38 · Tasks: 26 · Test files: 20 · Tested requirements: 31
 | REQ-SEC-008 Extension platform rules | H | [TASK-002](../tasks/TASK-002-build-pipeline.md) (done), [TASK-005](../tasks/TASK-005-spike-detector-offscreen.md) (done), [TASK-025](../tasks/TASK-025-security-review.md) (todo) | - | bc4024d, 0209db0 |
 | REQ-SEC-009 Dependencies | M | [TASK-001](../tasks/TASK-001-repo-scaffold.md) (done), [TASK-025](../tasks/TASK-025-security-review.md) (todo) | - | a573896 |
 | REQ-PRV-001 Local by default | H | [TASK-012](../tasks/TASK-012-detector-service.md) (done), [TASK-025](../tasks/TASK-025-security-review.md) (todo) | extension/src/background/second-opinion.spec.ts | cf73432 |
-| REQ-PRV-002 Minimal cloud upload | M | [TASK-018](../tasks/TASK-018-backend-check-endpoint.md) (in-progress), [TASK-019](../tasks/TASK-019-second-opinion-flow.md) (done) | extension/src/background/second-opinion.spec.ts, backend/src/app.spec.ts, backend/src/rate-limit.spec.ts | a40f839 |
+| REQ-PRV-002 Minimal cloud upload | M | [TASK-018](../tasks/TASK-018-backend-check-endpoint.md) (in-progress), [TASK-019](../tasks/TASK-019-second-opinion-flow.md) (done) | extension/src/background/second-opinion.spec.ts, backend/src/app.spec.ts, backend/src/rate-limit.spec.ts | a40f839, 1baba9c |
 | REQ-PRV-003 No telemetry | H | [TASK-025](../tasks/TASK-025-security-review.md) (todo) | - | - |
 | REQ-PRV-004 Local data control | M | [TASK-014](../tasks/TASK-014-verdict-cache.md) (done) | extension/src/background/cache.spec.ts | e005d12 |
 
