@@ -1,4 +1,81 @@
 <main class="popup">
   <h1>AI Image Detector</h1>
-  <p>Settings arrive with TASK-017.</p>
+
+  @if (loaded()) {
+    <section aria-label="Settings">
+      <label class="row">
+        <span class="row-text">
+          <span class="row-title">Check images</span>
+          <span class="row-hint">Turn the extension on or off everywhere.</span>
+        </span>
+        <input
+          id="enabled"
+          type="checkbox"
+          role="switch"
+          [checked]="settings().enabled"
+          (change)="setEnabled($event)"
+        />
+      </label>
+
+      @if (hostname(); as host) {
+        <label class="row">
+          <span class="row-text">
+            <span class="row-title">On this site</span>
+            <span class="row-hint">{{ host }}. Takes effect when the page is reloaded.</span>
+          </span>
+          <input
+            id="site-enabled"
+            type="checkbox"
+            role="switch"
+            [checked]="siteEnabled()"
+            [disabled]="!settings().enabled"
+            (change)="setSiteEnabled($event)"
+          />
+        </label>
+      } @else {
+        <p class="row row-hint">This page cannot be checked.</p>
+      }
+
+      <label class="row">
+        <span class="row-text">
+          <span class="row-title">Cloud second opinion</span>
+          <span class="row-hint"
+            >Adds a button that sends one image to a cloud detector when you click it. Nothing is
+            sent otherwise.</span
+          >
+        </span>
+        <input
+          id="cloud-enabled"
+          type="checkbox"
+          role="switch"
+          [checked]="settings().cloudEnabled"
+          (change)="setCloudEnabled($event)"
+        />
+      </label>
+    </section>
+
+    <section aria-label="Status">
+      <div class="row">
+        <span class="row-text">
+          <span class="row-title">Detector model</span>
+          <span class="row-hint" id="model-status" aria-live="polite">{{ modelText() }}</span>
+          @if (downloadPercent() !== null) {
+            <progress max="100" [value]="downloadPercent()" aria-label="Model download"></progress>
+          }
+        </span>
+      </div>
+
+      <div class="row">
+        <span class="row-text">
+          <span class="row-title">Saved results</span>
+          <span class="row-hint" id="cache-message" aria-live="polite">{{
+            cacheMessage() || 'Results are kept on this device for 7 days.'
+          }}</span>
+        </span>
+        <button id="clear-cache" type="button" (click)="clearCache()">Clear</button>
+      </div>
+    </section>
+
+    <p class="footnote">A mark shows AI involvement. No mark does not mean an image is real.</p>
+  }
 </main>
