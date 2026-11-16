@@ -1,0 +1,81 @@
+#!/usr/bin/env node
+// Builds the service worker, content script and offscreen document with esbuild and copies
+// static files (manifest, offscreen.html) into dist/. The Angular CLI builds dist/popup and
+// dist/ui separately (ADR-002).
+//
+// Usage: node scripts/build.mjs [--dev] [--watch]
+import * as esbuild from 'esbuild';
+import { cp, mkdir } from 'node:fs/promises';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const root = join(dirname(fileURLToPath(import.meta.url)), '..');
+const dist = join(root, 'dist');
+const dev = process.argv.includes('--dev');
+const watch = process.argv.includes('--watch');
+
+const staticFiles = [
+  ['src/manifest.json', 'manifest.json'],
+  ['src/offscreen/offscreen.html', 'offscreen/offscreen.html'],
+];
+
+async function copyStatic() {
+  for (const [from, to] of staticFiles) {
+    await mkdir(dirname(join(dist, to)), { recursive: true });
+    await cp(join(root, from), join(dist, to));
+  }
+}
+
+/** @type {import('esbuild').Plugin} */
+const copyStaticPlugin = {
+  name: 'copy-static',
+  setup(build) {
+    build.onEnd(async (result) => {
+      if (result.errors.length === 0) await copyStatic();
+    });
+  },
+};
+
+/** @type {import('esbuild').BuildOptions} */
+const common = {
+  absWorkingDir: root,
+  bundle: true,
+  target: 'chrome124',
+  platform: 'browser',
+  minify: !dev,
+  sourcemap: dev ? 'inline' : false,
+  legalComments: 'none',
+  define: { __DEV__: JSON.stringify(dev) },
+  logLevel: 'info',
+};
+
+/** @type {import('esbuild').BuildOptions[]} */
+const targets = [
+  {
+    ...common,
+    entryPoints: ['src/background/service-worker.ts'],
+    outfile: 'dist/service-worker.js',
+    format: 'esm',
+  },
+  {
+    ...common,
+    entryPoints: ['src/content/content.ts'],
+    outfile: 'dist/content.js',
+    format: 'iife',
+  },
+  {
+    ...common,
+    entryPoints: ['src/offscreen/offscreen.ts'],
+    outfile: 'dist/offscreen/offscreen.js',
+    format: 'esm',
+    plugins: [copyStaticPlugin],
+  },
+];
+
+if (watch) {
+  const contexts = await Promise.all(targets.map((t) => esbuild.context(t)));
+  await Promise.all(contexts.map((c) => c.watch()));
+  console.log('esbuild: watching service worker, content script and offscreen document');
+} else {
+  await Promise.all(targets.map((t) => esbuild.build(t)));
+}

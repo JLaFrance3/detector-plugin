@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "AI Image Detector",
+  "short_name": "AI Detector",
+  "version": "0.1.0",
+  "description": "Shows a small badge on images that are definitely or likely AI-generated. Checks run on your device.",
+  "minimum_chrome_version": "124",
+  "permissions": ["storage", "offscreen"],
+  "host_permissions": ["http://*/*", "https://*/*"],
+  "background": {
+    "service_worker": "service-worker.js",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "AI Image Detector",
+    "default_popup": "popup/index.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["ui/main.js", "content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"
+  }
+}

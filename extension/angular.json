@@ -1,0 +1,90 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "cli": {
+    "packageManager": "npm",
+    "analytics": false
+  },
+  "newProjectRoot": "projects",
+  "projects": {
+    "popup": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "projects/popup",
+      "sourceRoot": "projects/popup/src",
+      "prefix": "aid",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "browser": "projects/popup/src/main.ts",
+            "tsConfig": "projects/popup/tsconfig.app.json",
+            "outputPath": { "base": "dist/popup", "browser": "" },
+            "styles": ["projects/popup/src/styles.css"],
+            "outputHashing": "none"
+          },
+          "configurations": {
+            "production": {
+              "optimization": {
+                "scripts": true,
+                "styles": { "minify": true, "inlineCritical": false },
+                "fonts": false
+              },
+              "budgets": [
+                { "type": "initial", "maximumWarning": "500kB", "maximumError": "1MB" },
+                { "type": "anyComponentStyle", "maximumWarning": "4kB", "maximumError": "8kB" }
+              ]
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test"
+        }
+      }
+    },
+    "in-page": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "projects/in-page",
+      "sourceRoot": "projects/in-page/src",
+      "prefix": "aid",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "browser": "projects/in-page/src/main.ts",
+            "tsConfig": "projects/in-page/tsconfig.app.json",
+            "outputPath": { "base": "dist/ui", "browser": "" },
+            "index": false,
+            "outputHashing": "none"
+          },
+          "configurations": {
+            "production": {
+              "optimization": {
+                "scripts": true,
+                "styles": { "minify": true, "inlineCritical": false },
+                "fonts": false
+              },
+              "budgets": [{ "type": "initial", "maximumWarning": "300kB", "maximumError": "600kB" }]
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": false
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test"
+        }
+      }
+    }
+  }
+}

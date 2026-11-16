@@ -1,0 +1,18 @@
+/* Deliberately aggressive page CSS: the extension UI must look the same despite it
+   (REQ-UI-006). */
+* {
+  font-family: 'Comic Sans MS', cursive !important;
+  letter-spacing: 3px !important;
+}
+
+div,
+span,
+button,
+svg {
+  background: magenta !important;
+  color: lime !important;
+  border: 5px dashed red !important;
+  padding: 20px !important;
+  transform: rotate(7deg) !important;
+  font-size: 40px !important;
+}
