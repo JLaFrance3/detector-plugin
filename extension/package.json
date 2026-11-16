@@ -11,7 +11,9 @@
     "typecheck": "tsc -p tsconfig.scripts.json",
     "test": "vitest run && ng test popup --watch=false && ng test in-page --watch=false",
     "check:dist": "node scripts/check-dist.mjs",
-    "e2e:smoke": "node e2e/smoke.mjs"
+    "e2e:smoke": "node e2e/smoke.mjs",
+    "e2e:pipeline": "node e2e/pipeline.mjs",
+    "e2e": "node e2e/smoke.mjs && node e2e/pipeline.mjs"
   },
   "dependencies": {
     "@angular/common": "^22.2.0",

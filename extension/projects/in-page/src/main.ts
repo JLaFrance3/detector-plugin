@@ -4,13 +4,10 @@
 import { createComponent } from '@angular/core';
 import { createApplication } from '@angular/platform-browser';
 import type { BadgeView, InPageUi } from '../../../src/shared/ui-bridge';
-import { registerInPageUi } from '../../../src/shared/ui-bridge';
+import { UI_HOST_TAG, registerInPageUi } from '../../../src/shared/ui-bridge';
 import { App } from './app/app';
 import { appConfig } from './app/app.config';
 import { OverlayStore } from './app/overlay-store';
-
-/** Tag of the element that carries the closed shadow root. Not a registered custom element. */
-const HOST_TAG = 'aid-ui-host';
 
 // The host element lives in the page's DOM, so page CSS can target it. `!important` rules in
 // a shadow tree's :host beat the page's `!important` rules, which keeps the host inert.
@@ -31,7 +28,7 @@ const HOST_CSS = `
 let starting: Promise<OverlayStore> | undefined;
 
 async function start(): Promise<OverlayStore> {
-  const host = document.createElement(HOST_TAG);
+  const host = document.createElement(UI_HOST_TAG);
   // Closed: page scripts cannot reach the UI through host.shadowRoot (ADR-005).
   const shadow = host.attachShadow({ mode: 'closed' });
   const sheet = new CSSStyleSheet();

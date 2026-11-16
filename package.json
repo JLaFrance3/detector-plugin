@@ -15,7 +15,9 @@
     "format": "prettier --write .",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
-    "trace": "node scripts/trace.mjs"
+    "trace": "node scripts/trace.mjs",
+    "e2e": "npm run e2e --workspace extension",
+    "verify": "npm run lint && npm run typecheck && npm test && node scripts/trace.mjs --strict"
   },
   "engines": {
     "node": ">=22"

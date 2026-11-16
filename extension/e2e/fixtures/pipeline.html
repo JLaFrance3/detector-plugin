@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Pipeline test page</title>
+    <link rel="stylesheet" href="hostile.css" />
+    <style>
+      body {
+        margin: 20px;
+      }
+      img {
+        display: block;
+        margin: 12px 0;
+      }
+      .spacer {
+        height: 3000px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Pipeline test page</h1>
+
+    <!-- Definite: trusted Adobe credentials declaring an AI edit. -->
+    <img
+      id="definite"
+      src="c2pa/adobe-photoshop-ai-edited-trusted.jpg"
+      width="320"
+      height="240"
+      alt=""
+    />
+
+    <!-- Likely: unsigned XMP metadata declaring AI generation. -->
+    <img id="likely-metadata" src="xmp/xmp-ai-generated.jpg" width="320" height="240" alt="" />
+
+    <!-- None: a real photo without credentials. Shown twice: one check for both. -->
+    <img id="none" src="c2pa/adobe-20220124-A.jpg" width="320" height="240" alt="" />
+    <img id="none-again" src="c2pa/adobe-20220124-A.jpg" width="200" height="150" alt="" />
+
+    <!-- Skipped: below 128 px, and SVG. -->
+    <img id="small" src="xmp/xmp-ai-edited.jpg" width="100" height="100" alt="" />
+    <img id="svg" src="logo.svg" width="300" height="300" alt="" />
+
+    <!-- Inside <picture>: the chosen source is checked. -->
+    <picture>
+      <source srcset="xmp/xmp-ai-edited.jpg" media="(min-width: 600px)" />
+      <img id="picture" src="gradient.png" width="320" height="240" alt="" />
+    </picture>
+
+    <div class="spacer"></div>
+
+    <!-- Far below the fold: not checked until scrolled into view. -->
+    <img id="below-fold" src="c2pa/adobe-20220124-C.jpg" width="320" height="240" alt="" />
+
+    <div id="feed"></div>
+  </body>
+</html>

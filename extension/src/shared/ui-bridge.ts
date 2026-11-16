@@ -1,6 +1,7 @@
 // Contract between the content script (content.js) and the in-page UI bundle (ui/main.js).
 // Both run as content scripts in the same isolated world, so they share `globalThis`.
 // Only display-ready, sanitized fields cross this boundary (REQ-SEC-003).
+import type { ImageResult } from './types';
 
 export type BadgeKind = 'definite' | 'likely';
 
@@ -8,6 +9,8 @@ export interface BadgeView {
   kind: BadgeKind;
   /** Tooltip and accessible name, e.g. "AI-generated (Content Credentials)". */
   tooltip: string;
+  /** Verdict and evidence for the details popover. */
+  result: ImageResult;
 }
 
 export interface InPageUi {
@@ -16,6 +19,9 @@ export interface InPageUi {
   /** Removes the badge for an image, if any. */
   removeBadge(image: HTMLImageElement): void;
 }
+
+/** Tag of the element that hosts the UI's closed shadow root. Not a custom element. */
+export const UI_HOST_TAG = 'aid-ui-host';
 
 /** Name of the global that ui/main.js defines for content.js. */
 export const UI_GLOBAL = '__aidUi';

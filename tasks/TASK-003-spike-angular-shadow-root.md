@@ -33,3 +33,5 @@ ADR-005 holds. No alternative ADR is needed.
 - **Module format:** the Angular CLI emits an ES module but manifest content scripts are classic scripts. `scripts/build.mjs` wraps `ui/main.js` in a strict IIFE and `check-dist` verifies every content script parses as a classic script.
 - **Loading:** `ui/main.js` and `content.js` are both manifest content scripts sharing the isolated world; Angular starts lazily on the first badge.
 - **Page CSP:** not a problem; styles reach the shadow root on github.com.
+
+- **Update (TASK-006 to TASK-012):** the spike script was replaced by `extension/e2e/pipeline.mjs` (`npm run e2e`), which exercises the production code path. The spike script is in the git history at the commit for this task.
