@@ -7,6 +7,7 @@
 // - A capturing `load` listener notices when a visible image gets a new source (lazy loading,
 //   carousels), because `load` events do not bubble but can be captured.
 import { checkableUrl } from '../shared/image-filter';
+import { timed } from '../shared/perf';
 import { UI_HOST_TAG } from '../shared/ui-bridge';
 
 export interface ImageWatcherEvents {
@@ -24,7 +25,9 @@ export class ImageWatcher {
   private readonly mutations: MutationObserver;
   private readonly onLoad = (event: Event): void => {
     const target = event.target;
-    if (target instanceof HTMLImageElement && this.visible.has(target)) this.consider(target);
+    if (target instanceof HTMLImageElement && this.visible.has(target)) {
+      timed('content.load', () => this.consider(target));
+    }
   };
 
   constructor(
@@ -32,6 +35,19 @@ export class ImageWatcher {
     private readonly events: ImageWatcherEvents,
   ) {
     this.intersections = new IntersectionObserver((entries) => {
+      timed('content.intersection', () => this.onIntersections(entries));
+    });
+    this.mutations = new MutationObserver((records) => {
+      timed('content.mutation', () => {
+        for (const record of records) {
+          for (const node of record.addedNodes) this.observeTree(node);
+        }
+      });
+    });
+  }
+
+  private onIntersections(entries: IntersectionObserverEntry[]): void {
+    {
       for (const entry of entries) {
         const image = entry.target as HTMLImageElement;
         if (entry.isIntersecting) {
@@ -41,16 +57,11 @@ export class ImageWatcher {
           this.visible.delete(image);
         }
       }
-    });
-    this.mutations = new MutationObserver((records) => {
-      for (const record of records) {
-        for (const node of record.addedNodes) this.observeTree(node);
-      }
-    });
+    }
   }
 
   start(): void {
-    this.observeTree(this.root.documentElement);
+    timed('content.start', () => this.observeTree(this.root.documentElement));
     this.mutations.observe(this.root.documentElement, { childList: true, subtree: true });
     this.root.addEventListener('load', this.onLoad, true);
   }

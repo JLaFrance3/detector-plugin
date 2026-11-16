@@ -18,7 +18,8 @@
     "e2e:popup": "node e2e/popup.mjs",
     "e2e:second-opinion": "node e2e/second-opinion.mjs",
     "e2e:demo": "node e2e/demo.mjs",
-    "eval": "node eval/build-set.mjs && node eval/run.mjs"
+    "eval": "node eval/build-set.mjs && node eval/run.mjs",
+    "e2e:sites": "node e2e/sites.mjs"
   },
   "dependencies": {
     "@angular/common": "^22.2.0",

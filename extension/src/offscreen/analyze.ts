@@ -1,5 +1,6 @@
 // Runs the layered check of ADR-001 on one image's bytes and returns sanitized signals.
 // Provenance first; the detector only when no earlier rule decides the verdict (REQ-F-005).
+import { perfLog } from '../shared/perf';
 import { sanitizeC2pa } from '../shared/sanitize';
 import type { ImageSignals } from '../shared/types';
 import { isDefinite, needsDetector } from '../shared/verdict';
@@ -21,6 +22,7 @@ export async function analyzeImage(
   // 1. C2PA Content Credentials. Raw library output is sanitized before it goes anywhere
   //    else (REQ-SEC-001). A read error is treated as "no manifest".
   const raw = await deps.readC2pa(blob, mimeType || undefined).catch(() => null);
+  if (raw) perfLog()?.record('c2pa.read', raw.ms);
   const c2pa = sanitizeC2pa(raw);
   if (isDefinite(c2pa)) return { c2pa, iptc: null, detector: null };
 

@@ -4,6 +4,7 @@
 import { base64ToBytes } from '../shared/base64';
 import type { AnalyzeResponse, ModelStatusChanged } from '../shared/messages';
 import { parseOffscreenRequest } from '../shared/messages';
+import { installPerfLog } from '../shared/perf';
 import { analyzeImage } from './analyze';
 import { readC2pa } from './c2pa-reader';
 import { DetectorService } from './detector-service';
@@ -34,5 +35,6 @@ chrome.runtime.onMessage.addListener((message: unknown, sender, sendResponse) =>
   return true; // keep the channel open for the async response
 });
 
+if (__DEV__) installPerfLog(); // timings for the performance check (TASK-023)
 void detector.reportInitialStatus();
 if (__DEV__) console.debug('[aid] offscreen document loaded');

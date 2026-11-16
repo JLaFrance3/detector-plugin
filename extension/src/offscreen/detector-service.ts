@@ -1,5 +1,6 @@
 // Production detector (TASK-012): lazy model load, WebGPU with WASM fallback, at most two
 // images in flight, and model status reporting for the popup (REQ-F-006, REQ-F-010).
+import { perfLog } from '../shared/perf';
 import { TaskQueue } from '../shared/task-queue';
 import type { ModelStatus } from '../shared/types';
 import type { DetectorConfig } from './detector';
@@ -84,7 +85,7 @@ export class DetectorService {
     return this.queue.run(async () => {
       const config = await this.load();
       const result = await scoreImage(blob, config);
-      if (__DEV__) console.debug(`[aid] detector ${result.score.toFixed(4)} in ${result.ms} ms`);
+      perfLog()?.record('detector.score', result.ms);
       return Math.min(1, Math.max(0, result.score));
     });
   }

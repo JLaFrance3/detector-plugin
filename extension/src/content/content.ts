@@ -7,6 +7,7 @@ import {
   parsePageStateResponse,
   parseSecondOpinionResponse,
 } from '../shared/messages';
+import { installPerfLog } from '../shared/perf';
 import type { ImageResult } from '../shared/types';
 import type { SecondOpinionView } from '../shared/ui-bridge';
 import { getInPageUi } from '../shared/ui-bridge';
@@ -66,6 +67,7 @@ async function secondOpinion(image: HTMLImageElement): Promise<SecondOpinionView
 }
 
 async function main(): Promise<void> {
+  if (__DEV__) installPerfLog(); // timings for the performance check (TASK-023)
   const state = parsePageStateResponse(await send({ type: 'page:state' }));
   if (!state.active) return; // switched off globally or for this site (REQ-F-010)
   if (!getInPageUi()) {

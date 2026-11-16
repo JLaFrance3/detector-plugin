@@ -1,4 +1,5 @@
 import { Injectable, computed, signal } from '@angular/core';
+import { timed } from '../../../../src/shared/perf';
 import type { Viewport } from '../../../../src/shared/popover-position';
 import type { BadgeView, SecondOpinionView, UiOptions } from '../../../../src/shared/ui-bridge';
 
@@ -166,7 +167,7 @@ export class OverlayStore {
     if (this.frame) return;
     this.frame = requestAnimationFrame(() => {
       this.frame = 0;
-      this.measure();
+      timed('ui.measure', () => this.measure());
     });
   }
 
