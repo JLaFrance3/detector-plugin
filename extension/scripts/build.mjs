@@ -5,7 +5,8 @@
 //
 // Usage: node scripts/build.mjs [--dev] [--watch]
 import * as esbuild from 'esbuild';
-import { cp, mkdir } from 'node:fs/promises';
+import { watch as watchDir } from 'node:fs';
+import { cp, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -24,6 +25,24 @@ async function copyStatic() {
     await mkdir(dirname(join(dist, to)), { recursive: true });
     await cp(join(root, from), join(dist, to));
   }
+}
+
+// The Angular CLI emits the in-page UI bundle as an ES module, but manifest content scripts
+// run as classic scripts. The bundle has no imports or exports, so wrapping it in a strict
+// IIFE keeps module-like semantics and stops its top-level names leaking into the isolated
+// world's global scope.
+const uiBundle = join(dist, 'ui', 'main.js');
+const wrapHead = '(()=>{"use strict";/*aid-wrapped*/\n';
+
+async function wrapUiBundle() {
+  let code;
+  try {
+    code = await readFile(uiBundle, 'utf8');
+  } catch {
+    return; // not built yet
+  }
+  if (code.startsWith(wrapHead) || code.trim() === '') return;
+  await writeFile(uiBundle, `${wrapHead}${code}\n})();\n`);
 }
 
 /** @type {import('esbuild').Plugin} */
@@ -76,6 +95,16 @@ if (watch) {
   const contexts = await Promise.all(targets.map((t) => esbuild.context(t)));
   await Promise.all(contexts.map((c) => c.watch()));
   console.log('esbuild: watching service worker, content script and offscreen document');
+
+  // Re-wrap the UI bundle whenever `ng build in-page --watch` rewrites it.
+  await mkdir(dirname(uiBundle), { recursive: true });
+  await wrapUiBundle();
+  let timer;
+  watchDir(dirname(uiBundle), () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => wrapUiBundle().catch(console.error), 150);
+  });
 } else {
   await Promise.all(targets.map((t) => esbuild.build(t)));
+  await wrapUiBundle();
 }

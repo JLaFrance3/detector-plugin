@@ -1,1 +1,18 @@
-<div class="aid-overlay"></div>
+@for (badge of store.badges(); track badge.id) {
+  @if (badge.visible) {
+    <button
+      type="button"
+      class="aid-badge"
+      [class.aid-definite]="badge.view.kind === 'definite'"
+      [class.aid-likely]="badge.view.kind === 'likely'"
+      [style.left.px]="badge.left"
+      [style.top.px]="badge.top"
+      [attr.aria-label]="badge.view.tooltip"
+    >
+      <span class="aid-chip" aria-hidden="true">{{
+        badge.view.kind === 'definite' ? 'AI' : 'AI?'
+      }}</span>
+      <span class="aid-tip" role="tooltip">{{ badge.view.tooltip }}</span>
+    </button>
+  }
+}

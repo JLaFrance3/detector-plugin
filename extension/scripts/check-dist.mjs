@@ -3,9 +3,11 @@
 //  - REQ-SEC-008: manifest permissions and CSP are exactly as specified
 //  - REQ-SEC-008: nothing in dist loads code from a remote URL
 //  - REQ-SEC-004: no API-key-like strings in the bundle
+//  - content scripts parse as classic scripts (no import/export/import.meta)
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { dirname, extname, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { Script } from 'node:vm';
 
 const dist = join(dirname(fileURLToPath(import.meta.url)), '..', 'dist');
 const problems = [];
@@ -73,6 +75,19 @@ for (const file of files) {
   }
   for (const [re, what] of keyLike) {
     if (re.test(text)) problems.push(`${rel}: ${what} (REQ-SEC-004)`);
+  }
+}
+
+// --- Content scripts ----------------------------------------------------------------------
+// Manifest content scripts are classic scripts; compiling (not running) them catches module
+// syntax that Chrome would reject.
+for (const entry of manifest.content_scripts ?? []) {
+  for (const js of entry.js ?? []) {
+    try {
+      new Script(readFileSync(join(dist, js), 'utf8'), { filename: js });
+    } catch (error) {
+      problems.push(`${js}: not a valid classic script (${error.message})`);
+    }
   }
 }
 
