@@ -22,8 +22,10 @@ const types = {
   '.jpeg': 'image/jpeg',
   '.png': 'image/png',
   '.webp': 'image/webp',
+  '.gif': 'image/gif',
 };
-const isImage = (name) => ['.jpg', '.jpeg', '.png', '.webp'].includes(extname(name).toLowerCase());
+const isImage = (name) =>
+  ['.jpg', '.jpeg', '.png', '.webp', '.gif'].includes(extname(name).toLowerCase());
 
 async function listing() {
   const result = {};

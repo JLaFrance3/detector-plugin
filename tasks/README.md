@@ -49,7 +49,7 @@ Workflow: set `status: in-progress` when starting, tick acceptance criteria as t
 
 | Task | Title | Requirements | Depends on | Status |
 | --- | --- | --- | --- | --- |
-| [TASK-021](TASK-021-demo-sample-page.md) | Demo sample page | REQ-F-013 | TASK-002 | blocked |
+| [TASK-021](TASK-021-demo-sample-page.md) | Demo sample page | REQ-F-013 | TASK-002 | done |
 | [TASK-022](TASK-022-evaluation-and-threshold.md) | Evaluation set and threshold calibration | REQ-NF-006 | TASK-012, TASK-013 | done |
 | [TASK-023](TASK-023-performance-and-sites.md) | Performance and cross-site check | REQ-NF-001, REQ-UI-006 | TASK-015, TASK-016 | done |
 | [TASK-025](TASK-025-security-review.md) | Security review before submission | REQ-SEC-002, REQ-SEC-004, REQ-SEC-008, REQ-SEC-009, REQ-PRV-001, REQ-PRV-003 | TASK-017, TASK-019, TASK-020 | done |

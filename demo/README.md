@@ -10,19 +10,13 @@ Then open http://localhost:8080/ in Chrome with the extension loaded (`extension
 
 | Section | Folder | Expected | Samples now |
 | --- | --- | --- | --- |
-| Definite | `images/definite/` | Square **AI** badge, "AI-generated (Content Credentials)" or "AI-edited (Content Credentials)" | 1 (Adobe Photoshop generative edit) |
+| Definite | `images/definite/` | Square **AI** badge, "AI-generated (Content Credentials)" or "AI-edited (Content Credentials)" | 7 (ChatGPT, Gemini, Firefly and an Adobe Photoshop edit) |
 | Likely | `images/likely/` | Round **AI?** badge with a percentage | 6 (DALL-E, Stable Diffusion, Midjourney, Leonardo AI) |
 | None | `images/none/` | No badge | 6 photographs |
 
-## Still needed: signed AI samples
+## Adding more signed samples
 
-The Definite section needs at least 5 images downloaded directly from tools that sign their output: ChatGPT, Gemini and Adobe Firefly. Public test repositories do not have such files, so they have to be generated and downloaded by hand.
-
-1. Generate an image in each tool and use its **Download** button. Do not screenshot, do not send it through a chat or social app, and do not re-save it in an editor: each of those strips or breaks the Content Credentials.
-2. Drop the files into `demo/images/definite/`. The page lists whatever is in the folders; nothing else needs editing.
-3. Run `npm run e2e:demo --workspace extension` to confirm every sample gets the expected badge.
-
-If a download shows no badge, check it at https://contentcredentials.org/verify to see whether the file still carries a manifest.
+Generate an image in a tool that signs its output and use its **Download** button. Do not screenshot it, send it through a chat or social app, or re-save it in an editor: each of those strips or breaks the Content Credentials. Drop the file into `demo/images/definite/`; the page lists whatever is in the folders. Then run `npm run e2e:demo --workspace extension` to confirm the badge. If a download shows no badge, check it at https://contentcredentials.org/verify.
 
 ## Checking the page
 

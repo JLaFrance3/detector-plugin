@@ -1,7 +1,7 @@
 ---
 id: TASK-021
 title: Demo sample page
-status: blocked
+status: done
 milestone: M4
 requirements: [REQ-F-013]
 depends_on: [TASK-002]
@@ -13,7 +13,7 @@ Local HTML page with labeled sample images covering every verdict path.
 
 ## Acceptance criteria
 
-- [ ] At least 5 AI images with valid C2PA (ChatGPT, Gemini, Firefly)
+- [x] At least 5 AI images with valid C2PA (ChatGPT, Gemini, Firefly)
 - [x] At least 5 AI images with metadata stripped
 - [x] At least 5 real photos
 - [x] Definite, Likely and None all visible
@@ -24,3 +24,5 @@ Local HTML page with labeled sample images covering every verdict path.
 - Likely (6) and None (6) samples come from the scored evaluation set; credits are in `demo/CREDITS.md`. All three verdict paths are visible today.
 - `extension/e2e/demo.mjs` checks every image against its section.
 - **Blocked on:** at least 4 more signed downloads from ChatGPT, Gemini and Firefly for the Definite section (1 Adobe sample is in place). They have to be generated and downloaded by hand; see `demo/README.md`.
+
+- **Update 2026-11-16:** six signed downloads added (2 ChatGPT, 3 Gemini, 1 Firefly), all Definite with trusted signers; `e2e/demo.mjs` passes for all 19 samples.
