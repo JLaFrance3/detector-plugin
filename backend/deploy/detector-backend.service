@@ -1,0 +1,37 @@
+# systemd unit for the second-opinion backend (TASK-020).
+# Install as /etc/systemd/system/detector-backend.service
+
+[Unit]
+Description=AI image detector second-opinion backend
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=detector
+Group=detector
+WorkingDirectory=/opt/detector-backend
+# Secrets live in an env file readable only by root and the service user (mode 0640).
+EnvironmentFile=/etc/detector-backend/env
+ExecStart=/usr/bin/node dist/index.js
+Restart=on-failure
+RestartSec=3
+
+# Hardening: the service needs no write access, no privileges and no devices.
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_INET AF_INET6
+RestrictNamespaces=true
+LockPersonality=true
+CapabilityBoundingSet=
+SystemCallArchitectures=native
+MemoryMax=256M
+
+[Install]
+WantedBy=multi-user.target

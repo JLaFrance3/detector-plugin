@@ -1,0 +1,31 @@
+# Caddy configuration for the second-opinion backend (TASK-020, REQ-SEC-005).
+# Replace check.example.com with the real hostname. Caddy obtains and renews the TLS
+# certificate automatically and redirects HTTP to HTTPS by default.
+
+check.example.com {
+	# Reject oversized uploads before they reach Node (the service enforces 5 MB as well).
+	request_body {
+		max_size 5MB
+	}
+
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "no-referrer"
+		-Server
+	}
+
+	# Only the two routes the service has; everything else gets a bare 404.
+	@api path /v1/check /healthz
+	handle @api {
+		reverse_proxy 127.0.0.1:8787
+	}
+	handle {
+		respond 404
+	}
+
+	# Access logs would record client addresses; keep them off (REQ-PRV-002).
+	log {
+		output discard
+	}
+}
