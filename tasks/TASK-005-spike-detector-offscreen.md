@@ -43,3 +43,5 @@ ADR-004 holds for the detector, with one change of plan recorded in ADR-008. Run
 - **Package size:** the unpacked extension is now about 37 MB (ORT WASM 26.9 MB, C2PA WASM 9.2 MB); `offscreen.js` is 0.7 MB.
 - **Possible later optimization:** WASM runs single-threaded because extension pages are not cross-origin isolated. Adding COOP/COEP headers to the manifest would allow threads and should cut the WASM time further. Not needed to meet the budget.
 - **Test set-up:** WebGPU works in headless Edge with `--enable-unsafe-webgpu`.
+
+- **Update (TASK-006 to TASK-012):** the spike script was replaced by `extension/e2e/pipeline.mjs` (`npm run e2e`), which exercises the production code path. The spike script is in the git history at the commit for this task.

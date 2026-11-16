@@ -34,3 +34,5 @@ ADR-004 holds for C2PA. Run `node e2e/spike-c2pa.mjs` in `extension/` to reprodu
 - **Source type location:** `digitalSourceType` is read from the active manifest assertions (actions and metadata), not from a top-level field.
 - **Bytes to the offscreen document:** the spike passes image bytes as base64 over `chrome.runtime` messaging. Fine for now; revisit if large images are slow (TASK-008).
 - **Still needed:** real ChatGPT, Gemini and Firefly downloads for the demo page (TASK-021). The public test repositories have no such files.
+
+- **Update (TASK-006 to TASK-012):** the spike script was replaced by `extension/e2e/pipeline.mjs` (`npm run e2e`), which exercises the production code path. The spike script is in the git history at the commit for this task.
