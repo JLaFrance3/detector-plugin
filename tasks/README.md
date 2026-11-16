@@ -24,9 +24,9 @@ Workflow: set `status: in-progress` when starting, tick acceptance criteria as t
 | [TASK-008](TASK-008-sw-image-fetch.md) | Fetch image bytes in the service worker | REQ-F-002 | TASK-006 | todo |
 | [TASK-009](TASK-009-c2pa-reader.md) | C2PA reader with trust check | REQ-F-003, REQ-SEC-007 | TASK-004, TASK-008, TASK-011 | todo |
 | [TASK-010](TASK-010-iptc-xmp-reader.md) | Read unsigned IPTC/XMP source type | REQ-F-004 | TASK-008, TASK-011 | todo |
-| [TASK-011](TASK-011-metadata-sanitizer.md) | Sanitize C2PA and metadata fields | REQ-SEC-001 | TASK-001 | todo |
+| [TASK-011](TASK-011-metadata-sanitizer.md) | Sanitize C2PA and metadata fields | REQ-SEC-001 | TASK-001 | done |
 | [TASK-012](TASK-012-detector-service.md) | Detector service with queue | REQ-F-006, REQ-NF-001, REQ-PRV-001 | TASK-005, TASK-008 | todo |
-| [TASK-013](TASK-013-verdict-logic.md) | Verdict decision function | REQ-F-005 | TASK-001 | todo |
+| [TASK-013](TASK-013-verdict-logic.md) | Verdict decision function | REQ-F-005 | TASK-001 | done |
 | [TASK-014](TASK-014-verdict-cache.md) | Verdict cache | REQ-F-011, REQ-PRV-004 | TASK-013 | todo |
 
 ## M2: In-page UI (week of Nov 23)
