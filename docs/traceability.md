@@ -8,10 +8,10 @@ Requirements: 38 · Tasks: 26 · Test files: 2 · Tested requirements: 3
 | --- | --- | --- | --- | --- |
 | REQ-F-001 Find visible images | H | [TASK-007](../tasks/TASK-007-image-discovery.md) (todo) | - | - |
 | REQ-F-002 Fetch image bytes | H | [TASK-008](../tasks/TASK-008-sw-image-fetch.md) (todo) | - | - |
-| REQ-F-003 Read and validate C2PA | H | [TASK-004](../tasks/TASK-004-spike-c2pa-offscreen.md) (done), [TASK-009](../tasks/TASK-009-c2pa-reader.md) (todo) | - | - |
+| REQ-F-003 Read and validate C2PA | H | [TASK-004](../tasks/TASK-004-spike-c2pa-offscreen.md) (done), [TASK-009](../tasks/TASK-009-c2pa-reader.md) (todo) | - | 8f9ec5e |
 | REQ-F-004 Read unsigned IPTC/XMP metadata | M | [TASK-010](../tasks/TASK-010-iptc-xmp-reader.md) (todo) | - | - |
 | REQ-F-005 Decide the verdict | H | [TASK-013](../tasks/TASK-013-verdict-logic.md) (todo) | - | - |
-| REQ-F-006 On-device AI detection | H | [TASK-005](../tasks/TASK-005-spike-detector-offscreen.md) (todo), [TASK-012](../tasks/TASK-012-detector-service.md) (todo) | - | - |
+| REQ-F-006 On-device AI detection | H | [TASK-005](../tasks/TASK-005-spike-detector-offscreen.md) (done), [TASK-012](../tasks/TASK-012-detector-service.md) (todo) | - | - |
 | REQ-F-007 Show the badge | H | [TASK-015](../tasks/TASK-015-badge-component.md) (todo) | extension/projects/in-page/src/app/app.spec.ts | - |
 | REQ-F-008 Details popover | H | [TASK-016](../tasks/TASK-016-details-popover.md) (todo) | - | - |
 | REQ-F-009 Cloud second opinion | M | [TASK-019](../tasks/TASK-019-second-opinion-flow.md) (todo) | - | - |
@@ -25,7 +25,7 @@ Requirements: 38 · Tasks: 26 · Test files: 2 · Tested requirements: 3
 | REQ-UI-004 Quiet by design | H | [TASK-015](../tasks/TASK-015-badge-component.md) (todo) | - | - |
 | REQ-UI-005 Details popover | H | [TASK-016](../tasks/TASK-016-details-popover.md) (todo) | - | - |
 | REQ-UI-006 Style isolation | H | [TASK-003](../tasks/TASK-003-spike-angular-shadow-root.md) (done), [TASK-023](../tasks/TASK-023-performance-and-sites.md) (todo) | extension/projects/in-page/src/app/app.spec.ts | 56751bd, f41109b |
-| REQ-NF-001 Page performance | H | [TASK-005](../tasks/TASK-005-spike-detector-offscreen.md) (todo), [TASK-012](../tasks/TASK-012-detector-service.md) (todo), [TASK-023](../tasks/TASK-023-performance-and-sites.md) (todo) | - | - |
+| REQ-NF-001 Page performance | H | [TASK-005](../tasks/TASK-005-spike-detector-offscreen.md) (done), [TASK-012](../tasks/TASK-012-detector-service.md) (todo), [TASK-023](../tasks/TASK-023-performance-and-sites.md) (todo) | - | - |
 | REQ-NF-002 Works without the backend | H | [TASK-019](../tasks/TASK-019-second-opinion-flow.md) (todo) | - | - |
 | REQ-NF-003 Platform | H | [TASK-001](../tasks/TASK-001-repo-scaffold.md) (done), [TASK-002](../tasks/TASK-002-build-pipeline.md) (done) | - | a573896, bc4024d |
 | REQ-NF-004 Code quality and traceability | M | [TASK-001](../tasks/TASK-001-repo-scaffold.md) (done), [TASK-024](../tasks/TASK-024-traceability-script.md) (done) | - | a573896, 6bf3def |
@@ -37,8 +37,8 @@ Requirements: 38 · Tasks: 26 · Test files: 2 · Tested requirements: 3
 | REQ-SEC-004 API key stays on the backend | H | [TASK-018](../tasks/TASK-018-backend-check-endpoint.md) (todo), [TASK-025](../tasks/TASK-025-security-review.md) (todo) | - | - |
 | REQ-SEC-005 Backend hardening | H | [TASK-018](../tasks/TASK-018-backend-check-endpoint.md) (todo), [TASK-020](../tasks/TASK-020-deploy-backend.md) (todo) | - | - |
 | REQ-SEC-006 No server-side URL fetching | H | [TASK-018](../tasks/TASK-018-backend-check-endpoint.md) (todo) | - | - |
-| REQ-SEC-007 C2PA trust | H | [TASK-004](../tasks/TASK-004-spike-c2pa-offscreen.md) (done), [TASK-009](../tasks/TASK-009-c2pa-reader.md) (todo) | - | - |
-| REQ-SEC-008 Extension platform rules | H | [TASK-002](../tasks/TASK-002-build-pipeline.md) (done), [TASK-005](../tasks/TASK-005-spike-detector-offscreen.md) (todo), [TASK-025](../tasks/TASK-025-security-review.md) (todo) | - | bc4024d |
+| REQ-SEC-007 C2PA trust | H | [TASK-004](../tasks/TASK-004-spike-c2pa-offscreen.md) (done), [TASK-009](../tasks/TASK-009-c2pa-reader.md) (todo) | - | 8f9ec5e |
+| REQ-SEC-008 Extension platform rules | H | [TASK-002](../tasks/TASK-002-build-pipeline.md) (done), [TASK-005](../tasks/TASK-005-spike-detector-offscreen.md) (done), [TASK-025](../tasks/TASK-025-security-review.md) (todo) | - | bc4024d |
 | REQ-SEC-009 Dependencies | M | [TASK-001](../tasks/TASK-001-repo-scaffold.md) (done), [TASK-025](../tasks/TASK-025-security-review.md) (todo) | - | a573896 |
 | REQ-PRV-001 Local by default | H | [TASK-012](../tasks/TASK-012-detector-service.md) (todo), [TASK-025](../tasks/TASK-025-security-review.md) (todo) | - | - |
 | REQ-PRV-002 Minimal cloud upload | M | [TASK-018](../tasks/TASK-018-backend-check-endpoint.md) (todo), [TASK-019](../tasks/TASK-019-second-opinion-flow.md) (todo) | - | - |

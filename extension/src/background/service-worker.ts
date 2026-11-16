@@ -12,6 +12,7 @@ chrome.runtime.onInstalled.addListener((details) => {
 interface SpikeRequest {
   type: 'spike:c2pa' | 'spike:detect';
   url: string;
+  detector?: unknown;
 }
 
 function isSpikeRequest(message: unknown): message is SpikeRequest {
@@ -37,6 +38,7 @@ chrome.runtime.onMessage.addListener((message: unknown, sender, sendResponse) =>
         type: message.type,
         mimeType: response.headers.get('content-type')?.split(';')[0] ?? '',
         bytesBase64: bytesToBase64(bytes),
+        detector: message.detector,
       });
       sendResponse(result);
     } catch (error) {

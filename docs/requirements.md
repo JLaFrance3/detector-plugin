@@ -4,7 +4,7 @@
 | --- | --- |
 | Project | CYB 505 Practitioner Assignment (Fall 2026) |
 | Owner | Jean LaFrance (solo) |
-| Version | 0.2 draft, 2026-11-06 (loosened data: URL limit to 20 MB) |
+| Version | 0.3 draft, 2026-11-15 (spike results: detector weights per ADR-008, two open items resolved) |
 | Source | [Research brief](https://claude.ai/artifact/EJUyaN6fcZo5qUfvjfCkLS), decisions agreed 2026-11-04 |
 
 ## 1. Purpose and scope
@@ -80,7 +80,7 @@ The extension shall assign exactly one verdict per image, using the first rule t
 - Verdict logic is a pure function with unit tests covering every row.
 
 ### REQ-F-006 On-device AI detection (H)
-The offscreen document shall score images with an on-device image classifier (initially `onnx-community/CommunityForensics-DeepfakeDet-ViT-ONNX`) via transformers.js, using WebGPU when available and WASM otherwise.
+The offscreen document shall score images with an on-device image classifier (the Community Forensics ViT, loaded from `buildborderless/CommunityForensics-DeepfakeDet-ViT` at a pinned revision; see ADR-008) via transformers.js, using WebGPU when available and WASM otherwise.
 - No image data leaves the browser for this step.
 - The model is downloaded once on first use and cached (REQ-F-011).
 - At most 2 images are scored at a time; others wait in a queue.
@@ -251,7 +251,7 @@ All text taken from C2PA manifests or IPTC/XMP metadata is untrusted.
 
 | Item | Affects | Resolve by |
 | --- | --- | --- |
-| Model download size and inference time in the browser | REQ-F-006, REQ-NF-001 | First spike |
+| Model download size and inference time in the browser | REQ-F-006, REQ-NF-001 | **Resolved 2026-11-15 (TASK-005):** 87 MB (WebGPU, full precision) or 23 MB (WASM, 8-bit). Median inference 47 ms on WebGPU and 440 ms on WASM, both inside the 1 s budget |
 | Sightengine operations per AI-image check (sample response shows 5) | REQ-NF-005 | First backend test |
 | Calibrated threshold T | REQ-F-005, REQ-NF-006 | After evaluation set is built |
 | Whether `c2pa-web` exposes trust-list validation directly or it must be configured | REQ-SEC-007 | **Resolved 2026-11-15 (TASK-004):** it must be configured. The extension bundles the C2PA trust lists and passes them as trust anchors; a `validation_state` of `Trusted` is required for Definite |

@@ -28,6 +28,17 @@ const c2paDist = dirname(require.resolve('@contentauth/c2pa-web'));
 const vendorFiles = [
   [join(c2paDist, 'resources', 'c2pa_bg.wasm'), 'offscreen/vendor/c2pa_bg.wasm'],
   [join(c2paDist, 'c2pa_worker.js'), 'offscreen/vendor/c2pa_worker.js'],
+  // ONNX Runtime Web binary for transformers.js. Resolved from transformers.js so the version
+  // always matches the JavaScript glue that esbuild bundles into offscreen.js.
+  [
+    join(
+      dirname(
+        createRequire(require.resolve('@huggingface/transformers')).resolve('onnxruntime-web'),
+      ),
+      'ort-wasm-simd-threaded.asyncify.wasm',
+    ),
+    'offscreen/vendor/ort-wasm-simd-threaded.asyncify.wasm',
+  ],
 ];
 
 async function copyStatic() {

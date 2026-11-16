@@ -11,3 +11,4 @@ Short records of decisions and why they were made. Format: Status, Context, Deci
 | [005](ADR-005-shadow-root-angular-ui.md) | Mount Angular components in a closed shadow root, not Angular Elements | Accepted |
 | [006](ADR-006-backend-holds-api-key.md) | Optional Node/Fastify backend holds the Sightengine key | Accepted |
 | [007](ADR-007-local-tickets-traceability.md) | Local markdown tickets with REQ/TASK traceability | Accepted |
+| [008](ADR-008-corrected-detector-weights.md) | Use the corrected upstream detector weights, pinned to a revision (amends 003) | Proposed |
