@@ -55,6 +55,10 @@ const walk = (dir) => {
     const p = join(dir, name);
     if (statSync(p).isDirectory()) walk(p);
     else if (/\.(spec|test)\.(ts|js|mjs)$/.test(name)) testFiles.push(p);
+    // End-to-end browser checks name the requirement in each check they print.
+    else if (dir.endsWith('e2e') && name.endsWith('.mjs') && name !== 'harness.mjs') {
+      testFiles.push(p);
+    }
   }
 };
 ['extension', 'backend', 'scripts'].forEach((d) => walk(join(root, d)));

@@ -97,7 +97,7 @@ Image: a crop of `docs/traceability.md`.
 
 - 38 requirements with IDs, 26 tickets, 8 decision records.
 - Every commit names its ticket; every test name starts with the requirement it verifies.
-- 209 unit and component tests plus browser suites; 31 of 38 requirements have a test that names them.
+- 209 unit and component tests plus browser suites; 33 of 38 requirements have a test or browser check that names them.
 - Built with heavy AI assistance under written rules (`CLAUDE.md`): the security rules were the constraints, the tests were the proof.
 
 Notes: one honest sentence about a finding that the process caught: the detector build named in the plan turned out to be a broken export, found in the first spike and recorded as ADR-008.
