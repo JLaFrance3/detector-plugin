@@ -59,6 +59,31 @@
   </div>
 
   <div class="aid-actions">
+    @if (store.cloudEnabled()) {
+      @let opinion = store.opinions().get(badge().id);
+      @if (opinion === undefined) {
+        <button
+          type="button"
+          class="aid-text-button aid-second-opinion"
+          title="Sends this image to a cloud detector"
+          (click)="store.requestOpinion(badge().id)"
+        >
+          Get a second opinion
+        </button>
+      } @else if (opinion === 'loading') {
+        <button type="button" class="aid-text-button aid-second-opinion" disabled>Checking…</button>
+      } @else if (opinion.status === 'unavailable') {
+        <button type="button" class="aid-text-button aid-second-opinion" disabled>
+          Unavailable
+        </button>
+      } @else {
+        <span class="aid-second-opinion-result" aria-live="polite"
+          >Cloud second opinion: {{ opinion.percent }}% likely AI-generated ({{
+            opinion.provider
+          }})</span
+        >
+      }
+    }
     <button type="button" class="aid-text-button aid-hide-page" (click)="store.hidePage()">
       Hide on this page
     </button>

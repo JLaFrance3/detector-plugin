@@ -1,6 +1,6 @@
 import { Injectable, computed, signal } from '@angular/core';
 import type { Viewport } from '../../../../src/shared/popover-position';
-import type { BadgeView } from '../../../../src/shared/ui-bridge';
+import type { BadgeView, SecondOpinionView, UiOptions } from '../../../../src/shared/ui-bridge';
 
 /** Size of the badge's click target (REQ-UI-001). The visible chip is 20 px, centred in it. */
 export const HIT_SIZE = 24;
@@ -57,6 +57,30 @@ export class OverlayStore {
   private nextId = 1;
   private frame = 0;
   private listening = false;
+
+  /** REQ-F-009: whether to offer the cloud second opinion button. */
+  readonly cloudEnabled = signal(false);
+  /** Second opinions by badge id: in progress, or the outcome. */
+  readonly opinions = signal<ReadonlyMap<number, 'loading' | SecondOpinionView>>(new Map());
+  private opinionHandler: UiOptions['requestSecondOpinion'] | null = null;
+
+  configure(options: UiOptions): void {
+    this.cloudEnabled.set(options.cloudEnabled);
+    this.opinionHandler = options.requestSecondOpinion;
+  }
+
+  /** Runs once per badge, and only from a click on its button (REQ-F-009). */
+  async requestOpinion(id: number): Promise<void> {
+    if (!this.cloudEnabled() || !this.opinionHandler || this.opinions().has(id)) return;
+    const image = [...this.entries].find(([, entry]) => entry.id === id)?.[0];
+    if (!image) return;
+    const set = (value: 'loading' | SecondOpinionView): void =>
+      this.opinions.update((current) => new Map(current).set(id, value));
+    set('loading');
+    set(
+      await this.opinionHandler(image).catch((): SecondOpinionView => ({ status: 'unavailable' })),
+    );
+  }
 
   show(image: HTMLImageElement, view: BadgeView): void {
     const existing = this.entries.get(image);

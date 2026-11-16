@@ -3,7 +3,7 @@
 // badge is needed, so pages without flagged images pay almost nothing.
 import { createComponent } from '@angular/core';
 import { createApplication } from '@angular/platform-browser';
-import type { BadgeView, InPageUi } from '../../../src/shared/ui-bridge';
+import type { BadgeView, InPageUi, UiOptions } from '../../../src/shared/ui-bridge';
 import { UI_HOST_TAG, registerInPageUi } from '../../../src/shared/ui-bridge';
 import { App } from './app/app';
 import { appConfig } from './app/app.config';
@@ -26,6 +26,8 @@ const HOST_CSS = `
 `;
 
 let starting: Promise<OverlayStore> | undefined;
+/** Options received before the UI started; applied when it does. */
+let options: UiOptions | undefined;
 
 async function start(): Promise<OverlayStore> {
   const host = document.createElement(UI_HOST_TAG);
@@ -42,6 +44,7 @@ async function start(): Promise<OverlayStore> {
   const app = await createApplication(appConfig);
   const store = app.injector.get(OverlayStore);
   store.hostElement = host;
+  if (options) store.configure(options);
   const root = createComponent(App, { environmentInjector: app.injector, hostElement: mount });
   app.attachView(root.hostView);
   return store;
@@ -53,6 +56,10 @@ function store(): Promise<OverlayStore> {
 }
 
 const ui: InPageUi = {
+  configure(next: UiOptions): void {
+    options = next;
+    void starting?.then((s) => s.configure(next));
+  },
   showBadge(image: HTMLImageElement, view: BadgeView): void {
     void store().then((s) => s.show(image, view));
   },

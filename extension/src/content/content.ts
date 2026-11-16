@@ -1,9 +1,14 @@
 // Content script: finds visible images, asks the service worker for a verdict by URL and has
 // the in-page UI bundle (ui/main.js, loaded first in the same isolated world) show a badge.
 // It never sees image bytes, only display fields (REQ-SEC-003).
-import type { CheckImageRequest, PageStateRequest } from '../shared/messages';
-import { parseCheckImageResponse, parsePageStateResponse } from '../shared/messages';
+import type { CheckImageRequest, PageStateRequest, SecondOpinionRequest } from '../shared/messages';
+import {
+  parseCheckImageResponse,
+  parsePageStateResponse,
+  parseSecondOpinionResponse,
+} from '../shared/messages';
 import type { ImageResult } from '../shared/types';
+import type { SecondOpinionView } from '../shared/ui-bridge';
 import { getInPageUi } from '../shared/ui-bridge';
 import { badgeTooltip } from '../shared/verdict';
 import { ImageWatcher } from './image-watcher';
@@ -13,7 +18,9 @@ const results = new Map<string, Promise<ImageResult | null>>();
 /** The URL each image is currently waiting on or badged for. */
 const current = new WeakMap<HTMLImageElement, string>();
 
-async function send(message: CheckImageRequest | PageStateRequest): Promise<unknown> {
+async function send(
+  message: CheckImageRequest | PageStateRequest | SecondOpinionRequest,
+): Promise<unknown> {
   try {
     return await chrome.runtime.sendMessage(message);
   } catch {
@@ -45,6 +52,19 @@ async function onCandidate(image: HTMLImageElement, url: string): Promise<void> 
   getInPageUi()?.showBadge(image, { kind: result.verdict, tooltip, result });
 }
 
+/** REQ-F-009: runs only from a click on the popover button, for that one image. */
+async function secondOpinion(image: HTMLImageElement): Promise<SecondOpinionView> {
+  const url = current.get(image);
+  if (!url) return { status: 'unavailable' };
+  const reply = parseSecondOpinionResponse(await send({ type: 'image:second-opinion', url }));
+  if (!reply.ok) return { status: 'unavailable' };
+  return {
+    status: 'ok',
+    percent: Math.min(99, Math.max(0, Math.floor(reply.score * 100))),
+    provider: reply.provider === 'sightengine' ? 'Sightengine' : 'cloud detector',
+  };
+}
+
 async function main(): Promise<void> {
   const state = parsePageStateResponse(await send({ type: 'page:state' }));
   if (!state.active) return; // switched off globally or for this site (REQ-F-010)
@@ -52,6 +72,10 @@ async function main(): Promise<void> {
     if (__DEV__) console.warn('[aid] in-page UI bundle is missing');
     return;
   }
+  getInPageUi()?.configure({
+    cloudEnabled: state.cloudEnabled,
+    requestSecondOpinion: secondOpinion,
+  });
   const watcher = new ImageWatcher(document, {
     onCandidate: (image, url) => void onCandidate(image, url),
     onSourceChanged: (image) => {

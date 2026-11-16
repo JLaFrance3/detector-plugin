@@ -10,6 +10,7 @@ import {
   parseModelStatus,
   parseOffscreenRequest,
   parsePageStateResponse,
+  parseSecondOpinionResponse,
   parseServiceWorkerRequest,
 } from './messages';
 
@@ -293,5 +294,45 @@ describe('response validation', () => {
       cloudEnabled: false,
     });
     expect(parsePageStateResponse(null)).toEqual({ active: false, cloudEnabled: false });
+  });
+});
+
+describe('second opinion messages', () => {
+  const request = { type: 'image:second-opinion', url: 'https://cdn.example/a.jpg' };
+  const reply = { score: 0.87, provider: 'sightengine', checkedAt: '2026-11-16T12:00:00.000Z' };
+
+  it('REQ-F-009: a second opinion can only be requested from a page, for a valid image URL', () => {
+    expect(parseServiceWorkerRequest(request, contentScript, ID)).toEqual(request);
+    expect(parseServiceWorkerRequest(request, popup, ID)).toBeNull();
+    expect(parseServiceWorkerRequest(request, offscreen, ID)).toBeNull();
+    expect(parseServiceWorkerRequest(request, otherExtension, ID)).toBeNull();
+    expect(
+      parseServiceWorkerRequest({ ...request, url: 'file:///C:/private.png' }, contentScript, ID),
+    ).toBeNull();
+  });
+
+  it('REQ-SEC-003: a valid backend result is reduced to its display fields', () => {
+    expect(parseSecondOpinionResponse({ ...reply, debug: 'x', image: 'AAAA' })).toEqual({
+      ok: true,
+      ...reply,
+    });
+    expect(parseSecondOpinionResponse({ ok: true, ...reply })).toEqual({ ok: true, ...reply });
+  });
+
+  it('REQ-F-009: anything else is "unavailable"', () => {
+    const unavailable = { ok: false, reason: 'unavailable' };
+    const bad: unknown[] = [
+      undefined,
+      null,
+      'ok',
+      { error: 'quota_exhausted' },
+      { ok: false, reason: 'unavailable' },
+      { ...reply, score: 1.5 },
+      { ...reply, score: '0.9' },
+      { ...reply, provider: '<img src=x onerror=alert(1)>' },
+      { ...reply, checkedAt: 'yesterday' },
+      { ok: false, ...reply },
+    ];
+    for (const value of bad) expect(parseSecondOpinionResponse(value)).toEqual(unavailable);
   });
 });

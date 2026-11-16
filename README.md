@@ -11,7 +11,7 @@ Chrome extension that checks images as they appear on a page and shows a small w
 | `scripts/trace.mjs` | Regenerates the traceability matrix |
 | `scripts/task.mjs` | Sets a task's status in its file and on the board |
 | `extension/` | Angular + esbuild Chrome extension |
-| `backend/` | Node + Fastify second-opinion service (TASK-018) |
+| `backend/` | Node + Fastify second-opinion service |
 | `CLAUDE.md` | Rules for AI-assisted code generation |
 
 Research background: [research brief](https://claude.ai/artifact/EJUyaN6fcZo5qUfvjfCkLS).
@@ -35,6 +35,22 @@ Then open `chrome://extensions`, turn on Developer mode, choose "Load unpacked" 
 | `npm run typecheck` | TypeScript strict check of the esbuild scripts and backend |
 | `npm test` | Unit tests (Vitest, plus Angular component tests) |
 | `npm run trace` | Regenerates `docs/traceability.md` |
+| `npm run verify` | Lint, type checks, unit tests and a strict traceability check in one go |
+| `npm run e2e` | Browser tests of the built extension |
+
+## Second-opinion backend (optional)
+
+The extension works without a backend. To enable the "Get a second opinion" button, deploy `backend/` (see `backend/README.md`), then build the extension with its address and switch the feature on in the popup:
+
+```bash
+AID_BACKEND_URL=https://check.example.com npm run build
+```
+
+The address must be HTTPS (plain HTTP is accepted only for `127.0.0.1` and `localhost` during development).
+
+## End-to-end tests
+
+`npm run e2e` runs the browser suites in `extension/e2e/` against the built extension (run `npm run build` first). They use Playwright with Chromium, falling back to Microsoft Edge. The first run downloads the detector model (about 87 MB) into a test profile under `extension/e2e/output/`, which is not committed.
 
 ## Extension layout
 

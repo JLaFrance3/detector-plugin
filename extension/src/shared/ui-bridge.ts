@@ -13,7 +13,20 @@ export interface BadgeView {
   result: ImageResult;
 }
 
+/** Outcome of a cloud second opinion, ready to display (REQ-F-009). */
+export type SecondOpinionView =
+  { status: 'ok'; percent: number; provider: string } | { status: 'unavailable' };
+
+export interface UiOptions {
+  /** Whether the user has switched the cloud second opinion on (off by default). */
+  cloudEnabled: boolean;
+  /** Asks for a second opinion on one image. Called only from a click on its button. */
+  requestSecondOpinion(image: HTMLImageElement): Promise<SecondOpinionView>;
+}
+
 export interface InPageUi {
+  /** Sets page-wide options. May be called before the first badge. */
+  configure(options: UiOptions): void;
   /** Shows or updates the badge for an image. Starts the UI on first use. */
   showBadge(image: HTMLImageElement, view: BadgeView): void;
   /** Removes the badge for an image, if any. */

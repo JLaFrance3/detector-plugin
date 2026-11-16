@@ -15,6 +15,9 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const dist = join(root, 'dist');
 const dev = process.argv.includes('--dev');
 const watch = process.argv.includes('--watch');
+// Optional second-opinion backend (TASK-019). Leave unset to build without one.
+let backendUrl = (process.env.AID_BACKEND_URL ?? '').trim();
+while (backendUrl.endsWith('/')) backendUrl = backendUrl.slice(0, -1);
 
 const staticFiles = [
   ['src/manifest.json', 'manifest.json'],
@@ -89,7 +92,7 @@ const common = {
   minify: !dev,
   sourcemap: dev ? 'inline' : false,
   legalComments: 'none',
-  define: { __DEV__: JSON.stringify(dev) },
+  define: { __DEV__: JSON.stringify(dev), __BACKEND_URL__: JSON.stringify(backendUrl) },
   loader: { '.pem': 'text', '.cfg': 'text' },
   logLevel: 'info',
 };

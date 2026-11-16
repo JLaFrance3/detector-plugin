@@ -50,8 +50,26 @@ export interface ModelStatusChanged {
   status: ModelStatus;
 }
 
+/**
+ * Content script -> service worker: the user clicked "Get a second opinion" for one image
+ * (REQ-F-009). Still only a URL; the service worker fetches and uploads the bytes.
+ */
+export interface SecondOpinionRequest {
+  type: 'image:second-opinion';
+  url: string;
+}
+
 export type ServiceWorkerRequest =
-  CheckImageRequest | PageStateRequest | ClearCacheRequest | ModelStatusChanged;
+  | CheckImageRequest
+  | PageStateRequest
+  | ClearCacheRequest
+  | ModelStatusChanged
+  | SecondOpinionRequest;
+
+/** Result of a cloud second opinion. `unavailable` covers offline, over quota and disabled. */
+export type SecondOpinionResponse =
+  | { ok: true; score: number; provider: string; checkedAt: string }
+  | { ok: false; reason: 'unavailable' };
 
 /** Service worker -> offscreen document: analyze one image's bytes. */
 export interface AnalyzeRequest {
@@ -165,6 +183,12 @@ export function parseServiceWorkerRequest(
         : null;
     case 'page:state':
       return from === 'content-script' ? { type: 'page:state' } : null;
+    case 'image:second-opinion':
+      // Only from a page the user is looking at, where the click happened.
+      if (from !== 'content-script') return null;
+      return isCheckableImageUrl(message['url'])
+        ? { type: 'image:second-opinion', url: message['url'] }
+        : null;
     case 'cache:clear':
       // Never from a content script: a page must not be able to wipe the cache.
       return from === 'popup' ? { type: 'cache:clear' } : null;
@@ -320,4 +344,30 @@ export function parsePageStateResponse(value: unknown): PageStateResponse {
   return isObject(value)
     ? { active: value['active'] === true, cloudEnabled: value['cloudEnabled'] === true }
     : { active: false, cloudEnabled: false };
+}
+
+/** Cloud providers the backend may report. Anything else is not shown. */
+const PROVIDERS = new Set(['sightengine']);
+const ISO_INSTANT = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?Z$/;
+
+/**
+ * Validates a second-opinion result: the backend reply in the service worker, and the
+ * service worker reply in the content script. Anything malformed counts as unavailable.
+ */
+export function parseSecondOpinionResponse(value: unknown): SecondOpinionResponse {
+  if (isObject(value) && value['ok'] !== false) {
+    const { score, provider, checkedAt } = value;
+    if (
+      typeof score === 'number' &&
+      score >= 0 &&
+      score <= 1 &&
+      typeof provider === 'string' &&
+      PROVIDERS.has(provider) &&
+      typeof checkedAt === 'string' &&
+      ISO_INSTANT.test(checkedAt)
+    ) {
+      return { ok: true, score, provider, checkedAt };
+    }
+  }
+  return { ok: false, reason: 'unavailable' };
 }
