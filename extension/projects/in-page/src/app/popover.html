@@ -1,0 +1,66 @@
+<div
+  #panel
+  class="aid-popover"
+  role="dialog"
+  aria-label="AI image details"
+  tabindex="-1"
+  [class.aid-popover-ready]="height() > 0"
+  [style.left.px]="position().left"
+  [style.top.px]="position().top"
+  [style.width.px]="width()"
+>
+  <div class="aid-popover-head">
+    <span class="aid-chip" [class.aid-chip-likely]="kind() === 'likely'" aria-hidden="true">{{
+      kind() === 'definite' ? 'AI' : 'AI?'
+    }}</span>
+    <div class="aid-popover-title">
+      <strong>{{ details().title }}</strong>
+      <span>{{ details().confidence }}</span>
+    </div>
+    <button
+      type="button"
+      class="aid-icon-button aid-close"
+      aria-label="Close details"
+      (click)="store.close(true)"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  @if (details().note; as note) {
+    <p class="aid-note">{{ note }}</p>
+  }
+
+  <dl class="aid-signals">
+    @for (row of details().rows; track row.name) {
+      <div class="aid-signal">
+        <dt>{{ row.name }}</dt>
+        <dd>
+          <span class="aid-signal-summary">{{ row.summary }}</span>
+          @for (fact of row.facts; track fact.label) {
+            <span class="aid-fact">{{ fact.label }}: {{ fact.value }}</span>
+          }
+        </dd>
+      </div>
+    }
+  </dl>
+
+  <p class="aid-caveat">{{ caveat }}</p>
+
+  <div class="aid-links">
+    <span class="aid-links-label">Check hidden watermarks with the official tools:</span>
+    <ul>
+      @for (link of links; track link.url) {
+        <li>
+          <a [href]="link.url" target="_blank" rel="noopener noreferrer">{{ link.label }}</a>
+        </li>
+      }
+    </ul>
+  </div>
+
+  <div class="aid-actions">
+    <button type="button" class="aid-text-button aid-hide-page" (click)="store.hidePage()">
+      Hide on this page
+    </button>
+  </div>
+</div>

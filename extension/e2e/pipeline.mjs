@@ -203,29 +203,45 @@ try {
   console.log('\n# Page behaviour');
   const page = await browser.context.newPage();
   await page.goto(`${site.url}/pipeline.html`);
-  const first = await waitFor(async () => {
+
+  /** The visible badge over the image with this id (matched by position), or null. */
+  const badgeOn = async (id) => {
+    const rect = await page.evaluate((imageId) => {
+      const r = document.getElementById(imageId)?.getBoundingClientRect();
+      return r ? { right: r.right, top: r.top } : null;
+    }, id);
+    if (!rect) return null;
     const found = await findInExtensionUi(page, 'aid-badge');
-    return found.length >= 2 ? found : null;
-  });
+    return (
+      found.find(
+        (b) =>
+          b.box &&
+          Math.abs(b.box.x + b.box.width - (rect.right - 2)) <= 1 &&
+          Math.abs(b.box.y - (rect.top + 2)) <= 1,
+      ) ?? null
+    );
+  };
+  const label = (badge) => badge?.attributes['aria-label'] ?? null;
+
+  // Badge geometry (REQ-UI-001): top-right corner of the image, 4 px inset, 24 px target.
+  const definiteBadge = await waitFor(() => badgeOn('definite'));
   check(
-    (first ?? []).length === 2,
-    'REQ-F-001: only the images in the viewport are badged at first',
+    label(definiteBadge) === 'AI-edited (Content Credentials)',
+    'REQ-F-007: Definite badge in the top-right corner of its image',
   );
-  // The <picture> image is just below the first screen.
-  await page.evaluate(() => document.getElementById('picture').scrollIntoView({ block: 'end' }));
-  const badges = await waitFor(async () => {
-    const found = await findInExtensionUi(page, 'aid-badge');
-    return found.length >= 3 ? found : null;
-  });
-  const labels = (badges ?? []).map((b) => b.attributes['aria-label']).sort();
   check(
-    JSON.stringify(labels) ===
-      JSON.stringify([
-        'AI-edited (Content Credentials)',
-        'Likely AI · metadata',
-        'Likely AI · metadata',
-      ]),
-    `REQ-F-007: badges on the Definite, metadata and <picture> images only (${labels.join(' | ')})`,
+    definiteBadge?.box?.width === 24 && definiteBadge?.box?.height === 24,
+    'REQ-UI-001: 24 x 24 px click target',
+  );
+  check(
+    label(await waitFor(() => badgeOn('likely-metadata'))) === 'Likely AI · metadata',
+    'REQ-F-007: Likely badge on the metadata image',
+  );
+  await page.waitForTimeout(1500);
+  check((await badgeOn('none')) === null, 'REQ-F-007: nothing shown for a None verdict');
+  check(
+    (await findInExtensionUi(page, 'aid-badge')).length === 2,
+    'REQ-F-001: only flagged images in the viewport are badged',
   );
   check(
     site.hits('/c2pa/adobe-20220124-A.jpg', 'extension') - before === 1,
@@ -234,6 +250,23 @@ try {
   check(
     site.hits('/logo.svg', 'extension') === 1,
     'REQ-F-001: SVG image on the page is not fetched (only the direct test above)',
+  );
+  check(
+    site.hits('/xmp/xmp-ai-edited.jpg', 'extension') === 0,
+    'REQ-F-001: small image and off-screen <picture> are not fetched yet',
+  );
+
+  // The <picture> image is just below the first screen.
+  await page.evaluate(() => document.getElementById('picture').scrollIntoView({ block: 'end' }));
+  check(
+    label(await waitFor(() => badgeOn('picture'))) === 'Likely AI · metadata',
+    'REQ-F-001: <picture> image is checked with the source the browser chose',
+  );
+  check((await badgeOn('small')) === null, 'REQ-F-001: image below 128 px is skipped');
+  check((await badgeOn('svg')) === null, 'REQ-F-001: SVG image is skipped');
+  check(
+    site.hits('/xmp/xmp-ai-edited.jpg', 'extension') === 1,
+    'REQ-F-001: small image never fetched (one fetch, for the <picture>)',
   );
   check(
     site.hits('/gradient.png', 'extension') === 0,
@@ -246,28 +279,15 @@ try {
     'REQ-F-001: image below the fold is not fetched',
   );
 
-  // Badge geometry (REQ-UI-001): top-right corner of the image, 4 px inset, 24 px target.
-  const definiteBadge = (badges ?? []).find((b) =>
-    b.attributes['aria-label']?.startsWith('AI-edited'),
-  );
-  const rect = await page.evaluate(() => {
-    const r = document.getElementById('definite').getBoundingClientRect();
-    return { right: r.right, top: r.top };
-  });
-  const box = definiteBadge?.box;
-  check(
-    box &&
-      Math.abs(box.x + box.width - (rect.right - 2)) <= 1 &&
-      Math.abs(box.y - (rect.top + 2)) <= 1,
-    `REQ-UI-001: badge sits in the top-right corner (${JSON.stringify(box)})`,
-  );
-  check(box?.width === 24 && box?.height === 24, 'REQ-UI-001: 24 x 24 px click target');
-
   await page.evaluate(() => document.getElementById('below-fold').scrollIntoView());
   await waitFor(() => site.hits('/c2pa/adobe-20220124-C.jpg', 'extension') > belowBefore);
   check(
     site.hits('/c2pa/adobe-20220124-C.jpg', 'extension') === belowBefore + 1,
     'REQ-F-001: checked once scrolled into view',
+  );
+  check(
+    (await findInExtensionUi(page, 'aid-badge')).every((b) => b.box && b.box.y > -24),
+    'REQ-UI-001: badges of images scrolled out of view are not rendered',
   );
 
   // Infinite scroll: an image added later is picked up when it is visible.
@@ -279,25 +299,28 @@ try {
     document.getElementById('feed').append(img);
     img.scrollIntoView();
   });
-  const afterAdd = await waitFor(async () => {
-    const found = await findInExtensionUi(page, 'aid-badge');
-    return found.length >= 4 ? found : null;
-  });
-  check((afterAdd ?? []).length === 4, 'REQ-F-001: image added after load gets checked and badged');
+  check(
+    label(await waitFor(() => badgeOn('added'))) === 'Likely AI · metadata',
+    'REQ-F-001: image added after load gets checked and badged',
+  );
   check(
     site.hits('/xmp/xmp-ai-generated.jpg', 'extension') === addedBefore + 1,
     'REQ-F-001: added image fetched once',
   );
 
   // A source swap removes the stale badge and checks the new image.
+  const swapBefore = site.hits('/c2pa/adobe-20220124-A.jpg', 'extension');
   await page.evaluate(() => {
     document.getElementById('added').src = 'c2pa/adobe-20220124-A.jpg?swapped=1';
   });
-  const afterSwap = await waitFor(async () => {
-    const found = await findInExtensionUi(page, 'aid-badge');
-    return found.length === 3 ? found : null;
-  });
-  check((afterSwap ?? []).length === 3, 'REQ-F-001: badge removed when the image source changes');
+  check(
+    await waitFor(async () => (await badgeOn('added')) === null),
+    'REQ-F-001: badge removed when the image source changes',
+  );
+  check(
+    await waitFor(() => site.hits('/c2pa/adobe-20220124-A.jpg', 'extension') === swapBefore + 1),
+    'REQ-F-001: the new source is checked',
+  );
 
   const leaked = await page.evaluate(
     () =>

@@ -1,18 +1,33 @@
-@for (badge of store.badges(); track badge.id) {
-  @if (badge.visible) {
-    <button
-      type="button"
-      class="aid-badge"
-      [class.aid-definite]="badge.view.kind === 'definite'"
-      [class.aid-likely]="badge.view.kind === 'likely'"
-      [style.left.px]="badge.left"
-      [style.top.px]="badge.top"
-      [attr.aria-label]="badge.view.tooltip"
-    >
-      <span class="aid-chip" aria-hidden="true">{{
-        badge.view.kind === 'definite' ? 'AI' : 'AI?'
-      }}</span>
-      <span class="aid-tip" role="tooltip">{{ badge.view.tooltip }}</span>
-    </button>
+@if (!store.hidden()) {
+  @for (badge of store.badges(); track badge.id) {
+    @if (badge.visible) {
+      <button
+        #badgeButton
+        type="button"
+        class="aid-badge"
+        [class.aid-definite]="badge.view.kind === 'definite'"
+        [class.aid-likely]="badge.view.kind === 'likely'"
+        [class.aid-open]="store.openId() === badge.id"
+        [style.left.px]="badge.left"
+        [style.top.px]="badge.top"
+        [attr.data-badge]="badge.id"
+        [attr.aria-label]="badge.view.tooltip"
+        [attr.aria-expanded]="store.openId() === badge.id"
+        aria-haspopup="dialog"
+        (click)="store.toggle(badge.id)"
+      >
+        <span
+          class="aid-chip"
+          [class.aid-chip-likely]="badge.view.kind === 'likely'"
+          aria-hidden="true"
+          >{{ badge.view.kind === 'definite' ? 'AI' : 'AI?' }}</span
+        >
+        <span class="aid-tip" aria-hidden="true">{{ badge.view.tooltip }}</span>
+      </button>
+    }
+  }
+
+  @if (store.openBadge(); as open) {
+    <aid-popover [badge]="open" />
   }
 }

@@ -40,9 +40,11 @@ async function start(): Promise<OverlayStore> {
 
   // Zoneless application with no root component; components are attached by hand.
   const app = await createApplication(appConfig);
+  const store = app.injector.get(OverlayStore);
+  store.hostElement = host;
   const root = createComponent(App, { environmentInjector: app.injector, hostElement: mount });
   app.attachView(root.hostView);
-  return app.injector.get(OverlayStore);
+  return store;
 }
 
 function store(): Promise<OverlayStore> {

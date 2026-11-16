@@ -33,8 +33,8 @@ Workflow: set `status: in-progress` when starting, tick acceptance criteria as t
 
 | Task | Title | Requirements | Depends on | Status |
 | --- | --- | --- | --- | --- |
-| [TASK-015](TASK-015-badge-component.md) | Badge component | REQ-F-007, REQ-UI-001, REQ-UI-002, REQ-UI-003, REQ-UI-004, REQ-SEC-002 | TASK-003, TASK-007, TASK-013 | todo |
-| [TASK-016](TASK-016-details-popover.md) | Details popover | REQ-F-008, REQ-UI-005, REQ-SEC-002 | TASK-015, TASK-009, TASK-010, TASK-012 | todo |
+| [TASK-015](TASK-015-badge-component.md) | Badge component | REQ-F-007, REQ-UI-001, REQ-UI-002, REQ-UI-003, REQ-UI-004, REQ-SEC-002 | TASK-003, TASK-007, TASK-013 | done |
+| [TASK-016](TASK-016-details-popover.md) | Details popover | REQ-F-008, REQ-UI-005, REQ-SEC-002 | TASK-015, TASK-009, TASK-010, TASK-012 | done |
 | [TASK-017](TASK-017-settings-popup.md) | Settings popup | REQ-F-010 | TASK-002, TASK-012, TASK-014 | todo |
 
 ## M3: Backend (week of Nov 30)

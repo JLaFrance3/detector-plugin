@@ -10,4 +10,4 @@ coverage/
 Thumbs.db
 .vscode/
 .idea/
-e2e/output/
+extension/e2e/output/
