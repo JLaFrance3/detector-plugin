@@ -67,7 +67,7 @@ export default tseslint.config(
   {
     // End-to-end scripts run in Node but pass functions to the browser via page.evaluate().
     files: ['extension/e2e/**/*.mjs'],
-    languageOptions: { globals: { ...globals.node, ...globals.browser } },
+    languageOptions: { globals: { ...globals.node, ...globals.browser, chrome: 'readonly' } },
   },
   {
     files: ['**/*.ts'],

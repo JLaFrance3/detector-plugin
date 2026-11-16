@@ -254,4 +254,4 @@ All text taken from C2PA manifests or IPTC/XMP metadata is untrusted.
 | Model download size and inference time in the browser | REQ-F-006, REQ-NF-001 | First spike |
 | Sightengine operations per AI-image check (sample response shows 5) | REQ-NF-005 | First backend test |
 | Calibrated threshold T | REQ-F-005, REQ-NF-006 | After evaluation set is built |
-| Whether `c2pa-web` exposes trust-list validation directly or it must be configured | REQ-SEC-007 | First spike |
+| Whether `c2pa-web` exposes trust-list validation directly or it must be configured | REQ-SEC-007 | **Resolved 2026-11-15 (TASK-004):** it must be configured. The extension bundles the C2PA trust lists and passes them as trust anchors; a `validation_state` of `Trusted` is required for Definite |

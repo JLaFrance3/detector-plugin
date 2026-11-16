@@ -7,6 +7,7 @@
 import * as esbuild from 'esbuild';
 import { watch as watchDir } from 'node:fs';
 import { cp, mkdir, readFile, writeFile } from 'node:fs/promises';
+import { createRequire } from 'node:module';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -20,10 +21,23 @@ const staticFiles = [
   ['src/offscreen/offscreen.html', 'offscreen/offscreen.html'],
 ];
 
+// Third-party runtime files that must ship inside the extension (REQ-SEC-008: no remote code).
+// They are loaded by URL at runtime, so esbuild cannot bundle them.
+const require = createRequire(import.meta.url);
+const c2paDist = dirname(require.resolve('@contentauth/c2pa-web'));
+const vendorFiles = [
+  [join(c2paDist, 'resources', 'c2pa_bg.wasm'), 'offscreen/vendor/c2pa_bg.wasm'],
+  [join(c2paDist, 'c2pa_worker.js'), 'offscreen/vendor/c2pa_worker.js'],
+];
+
 async function copyStatic() {
   for (const [from, to] of staticFiles) {
     await mkdir(dirname(join(dist, to)), { recursive: true });
     await cp(join(root, from), join(dist, to));
+  }
+  for (const [from, to] of vendorFiles) {
+    await mkdir(dirname(join(dist, to)), { recursive: true });
+    await cp(from, join(dist, to));
   }
 }
 
@@ -65,6 +79,7 @@ const common = {
   sourcemap: dev ? 'inline' : false,
   legalComments: 'none',
   define: { __DEV__: JSON.stringify(dev) },
+  loader: { '.pem': 'text', '.cfg': 'text' },
   logLevel: 'info',
 };
 
