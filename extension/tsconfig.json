@@ -1,0 +1,32 @@
+/* Base TypeScript config for the extension: Angular projects and esbuild scripts extend it. */
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "preserve"
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  },
+  "files": [],
+  "references": [
+    { "path": "./projects/popup/tsconfig.app.json" },
+    { "path": "./projects/popup/tsconfig.spec.json" },
+    { "path": "./projects/in-page/tsconfig.app.json" },
+    { "path": "./projects/in-page/tsconfig.spec.json" },
+    { "path": "./tsconfig.scripts.json" }
+  ]
+}

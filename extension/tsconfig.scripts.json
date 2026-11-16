@@ -1,0 +1,10 @@
+/* Service worker, content script, offscreen document and shared code (built by esbuild). */
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "lib": ["ES2023", "DOM", "DOM.Iterable", "WebWorker"],
+    "types": ["chrome", "vitest/globals"]
+  },
+  "include": ["src/**/*.ts"]
+}

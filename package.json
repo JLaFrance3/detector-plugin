@@ -1,0 +1,31 @@
+{
+  "name": "detector-plugin",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Chrome extension that flags AI-generated images, plus an optional second-opinion backend.",
+  "type": "module",
+  "workspaces": [
+    "extension",
+    "backend"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "watch": "npm run watch --workspace extension",
+    "lint": "eslint . && prettier --check .",
+    "format": "prettier --write .",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "trace": "node scripts/trace.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "angular-eslint": "^22.7.0",
+    "eslint": "^10.15.0",
+    "globals": "^17.14.0",
+    "prettier": "^3.10.1",
+    "typescript-eslint": "^8.72.2"
+  }
+}
