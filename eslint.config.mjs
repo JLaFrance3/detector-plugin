@@ -81,6 +81,11 @@ export default tseslint.config(
     },
   },
   {
+    // Tests feed hostile strings (such as script URLs) to validators as data.
+    files: ['**/*.spec.ts'],
+    rules: { 'no-script-url': 'off' },
+  },
+  {
     files: ['extension/projects/**/*.ts'],
     extends: [...angular.configs.tsRecommended],
     processor: angular.processInlineTemplates,
