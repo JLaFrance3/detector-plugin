@@ -59,7 +59,10 @@ export function strongestAiSource(values: readonly unknown[]): AiSource | null {
   return found;
 }
 
-/** Fields read from a C2PA manifest before sanitizing. Mirrors the reader's raw output. */
+/**
+ * Fields read from a C2PA manifest before sanitizing. Anything else the reader returns is
+ * ignored (allowlist, REQ-SEC-001).
+ */
 export interface RawC2paFields {
   present?: unknown;
   validationState?: unknown;
@@ -68,8 +71,6 @@ export interface RawC2paFields {
   signedAt?: unknown;
   digitalSourceTypes?: unknown;
   failures?: unknown;
-  // Anything else the library returns is ignored (allowlist, REQ-SEC-001).
-  [other: string]: unknown;
 }
 
 const NO_MANIFEST: C2paSignal = {
