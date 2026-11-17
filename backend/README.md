@@ -8,7 +8,7 @@ Optional service behind the extension's "Get a second opinion" button (REQ-F-009
 
 - Body: the raw image bytes (JPEG, PNG or WebP, at most 5 MB). `Content-Type` may be `image/jpeg`, `image/png`, `image/webp` or `application/octet-stream`; the real type is read from the file's magic bytes.
 - Optional header `X-Install-Token`: a random ID the extension generates once. Used only as a second rate-limit key.
-- Response `200`: `{ "score": 0.93, "provider": "sightengine", "checkedAt": "2026-11-16T12:00:00.000Z" }` where `score` is the probability from 0 to 1 that the image is AI-generated.
+- Response `200`: `{ "score": 0.93, "deepfake": 0.04, "provider": "sightengine", "checkedAt": "2026-11-16T12:00:00.000Z" }` where `score` is the probability from 0 to 1 that the image is AI-generated (Sightengine `genai`) and `deepfake` is the probability that a face was swapped or edited (Sightengine `deepfake`), or `null` when none was reported (ADR-009).
 
 | Status | `error` | Meaning |
 | --- | --- | --- |

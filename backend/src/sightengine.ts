@@ -1,4 +1,4 @@
-// Client for Sightengine's AI-generated image model (REQ-F-012).
+// Client for Sightengine's AI-generated image and deepfake models (REQ-F-012, ADR-009).
 // The API credentials come from the environment and are only ever sent to Sightengine
 // (REQ-SEC-004). The endpoint URL is a constant: nothing a client sends can change where
 // this service connects to (REQ-SEC-006).
@@ -10,6 +10,11 @@ const TIMEOUT_MS = 15_000;
 export interface ProviderResult {
   /** Probability from 0 to 1 that the image is AI-generated. */
   score: number;
+  /**
+   * Probability from 0 to 1 that a face in the image was swapped or manipulated, or null
+   * when the provider did not report one. Never fails the check (ADR-009).
+   */
+  deepfake: number | null;
   /** Operations Sightengine billed for this check, when reported (REQ-NF-005 open item). */
   operations: number | null;
 }
@@ -27,11 +32,16 @@ const extension: Record<AllowedImageType, string> = {
   'image/webp': 'webp',
 };
 
-/** Reads `type.ai_generated` from a Sightengine response and clamps it to 0..1. */
+const clamp = (value: number): number => Math.min(1, Math.max(0, value));
+
+/**
+ * Reads `type.ai_generated` (required) and `type.deepfake` (optional) from a Sightengine
+ * response and clamps both to 0..1.
+ */
 export function normalizeScore(body: unknown): ProviderResult {
   const data = body as {
     status?: unknown;
-    type?: { ai_generated?: unknown };
+    type?: { ai_generated?: unknown; deepfake?: unknown };
     request?: { operations?: unknown };
   } | null;
   const score = data?.type?.ai_generated;
@@ -39,8 +49,10 @@ export function normalizeScore(body: unknown): ProviderResult {
     throw new ProviderError('unexpected provider response');
   }
   const operations = data.request?.operations;
+  const deepfake = data.type?.deepfake;
   return {
-    score: Math.min(1, Math.max(0, score)),
+    score: clamp(score),
+    deepfake: typeof deepfake === 'number' && Number.isFinite(deepfake) ? clamp(deepfake) : null,
     operations: typeof operations === 'number' ? operations : null,
   };
 }
@@ -53,7 +65,7 @@ export function createSightengine(
     name: 'sightengine',
     async check(bytes, type) {
       const form = new FormData();
-      form.set('models', 'genai');
+      form.set('models', 'genai,deepfake');
       form.set('api_user', credentials.apiUser);
       form.set('api_secret', credentials.apiSecret);
       form.set('media', new Blob([bytes], { type }), `image.${extension[type]}`);

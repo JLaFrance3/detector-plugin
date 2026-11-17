@@ -5,19 +5,35 @@ import { ProviderError, createSightengine, normalizeScore } from './sightengine.
 const JPEG = Uint8Array.from([0xff, 0xd8, 0xff, 0xe0, 1, 2, 3]);
 const credentials = { apiUser: '123456789', apiSecret: 'test-secret-value' };
 
-const success = (aiGenerated: unknown, operations: unknown = 5) => ({
+const success = (aiGenerated: unknown, operations: unknown = 5, deepfake: unknown = 0.02) => ({
   status: 'success',
   request: { id: 'req_abc', timestamp: 1763294400.1, operations },
-  type: { ai_generated: aiGenerated },
+  type: { ai_generated: aiGenerated, deepfake },
   media: { id: 'med_abc', uri: 'image.jpg' },
 });
 
 describe('normalizeScore', () => {
   it('REQ-F-012: normalizes the provider result to a 0 to 1 score', () => {
-    expect(normalizeScore(success(0.99))).toEqual({ score: 0.99, operations: 5 });
-    expect(normalizeScore(success(0))).toEqual({ score: 0, operations: 5 });
+    expect(normalizeScore(success(0.99))).toEqual({ score: 0.99, deepfake: 0.02, operations: 5 });
+    expect(normalizeScore(success(0))).toEqual({ score: 0, deepfake: 0.02, operations: 5 });
     expect(normalizeScore(success(1.7)).score).toBe(1);
     expect(normalizeScore(success(-0.2)).score).toBe(0);
+  });
+
+  it('REQ-F-012: reads the deepfake score as optional, clamped to 0 to 1', () => {
+    expect(normalizeScore(success(0.1, 5, 0.93)).deepfake).toBe(0.93);
+    expect(normalizeScore(success(0.1, 5, 1.4)).deepfake).toBe(1);
+    expect(normalizeScore(success(0.1, 5, -1)).deepfake).toBe(0);
+    // A missing or malformed deepfake score never fails the check: genai still counts.
+    const noDeepfake = { ...success(0.4), type: { ai_generated: 0.4 } };
+    expect(normalizeScore(noDeepfake).deepfake).toBeNull();
+    for (const malformed of [null, '0.9', Number.NaN]) {
+      expect(normalizeScore(success(0.4, 5, malformed))).toEqual({
+        score: 0.4,
+        deepfake: null,
+        operations: 5,
+      });
+    }
   });
 
   it('REQ-NF-005: reports the operations used by a check when the provider says', () => {
@@ -40,7 +56,7 @@ describe('normalizeScore', () => {
 });
 
 describe('createSightengine', () => {
-  it('REQ-F-012: sends the image bytes to the genai model at the fixed endpoint', async () => {
+  it('REQ-F-012: sends the image bytes to the genai and deepfake models at the fixed endpoint', async () => {
     let seenUrl = '';
     let seenInit: RequestInit | undefined;
     const fetchFn = ((url: string, init?: RequestInit) => {
@@ -50,11 +66,11 @@ describe('createSightengine', () => {
     }) as unknown as typeof fetch;
 
     const result = await createSightengine(credentials, fetchFn).check(JPEG, 'image/jpeg');
-    expect(result).toEqual({ score: 0.91, operations: 5 });
+    expect(result).toEqual({ score: 0.91, deepfake: 0.02, operations: 5 });
     expect(seenUrl).toBe('https://api.sightengine.com/1.0/check.json');
     expect(seenInit?.method).toBe('POST');
     const form = seenInit?.body as FormData;
-    expect(form.get('models')).toBe('genai');
+    expect(form.get('models')).toBe('genai,deepfake');
     expect(form.get('api_user')).toBe('123456789');
     expect(form.get('api_secret')).toBe('test-secret-value');
     const media = form.get('media') as File;

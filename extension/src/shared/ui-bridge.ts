@@ -15,7 +15,14 @@ export interface BadgeView {
 
 /** Outcome of a cloud second opinion, ready to display (REQ-F-009). */
 export type SecondOpinionView =
-  { status: 'ok'; percent: number; provider: string } | { status: 'unavailable' };
+  | {
+      status: 'ok';
+      percent: number;
+      /** Face-edit percentage, only when it reaches the threshold; otherwise null (ADR-009). */
+      faceEditPercent: number | null;
+      provider: string;
+    }
+  | { status: 'unavailable' };
 
 export interface UiOptions {
   /** Whether the user has switched the cloud second opinion on (off by default). */

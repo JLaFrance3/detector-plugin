@@ -299,7 +299,12 @@ describe('response validation', () => {
 
 describe('second opinion messages', () => {
   const request = { type: 'image:second-opinion', url: 'https://cdn.example/a.jpg' };
-  const reply = { score: 0.87, provider: 'sightengine', checkedAt: '2026-11-16T12:00:00.000Z' };
+  const reply = {
+    score: 0.87,
+    deepfake: 0.12,
+    provider: 'sightengine',
+    checkedAt: '2026-11-16T12:00:00.000Z',
+  };
 
   it('REQ-F-009: a second opinion can only be requested from a page, for a valid image URL', () => {
     expect(parseServiceWorkerRequest(request, contentScript, ID)).toEqual(request);
@@ -317,6 +322,16 @@ describe('second opinion messages', () => {
       ...reply,
     });
     expect(parseSecondOpinionResponse({ ok: true, ...reply })).toEqual({ ok: true, ...reply });
+  });
+
+  it('REQ-F-009: a missing or malformed deepfake score is dropped, not fatal', () => {
+    for (const deepfake of [undefined, null, 1.5, -0.1, '0.9']) {
+      expect(parseSecondOpinionResponse({ ...reply, deepfake })).toEqual({
+        ok: true,
+        ...reply,
+        deepfake: null,
+      });
+    }
   });
 
   it('REQ-F-009: anything else is "unavailable"', () => {

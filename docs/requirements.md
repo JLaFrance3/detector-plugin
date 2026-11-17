@@ -4,7 +4,7 @@
 | --- | --- |
 | Project | CYB 505 Practitioner Assignment (Fall 2026) |
 | Owner | Jean LaFrance (solo) |
-| Version | 0.4 draft, 2026-11-16 (threshold calibrated to 0.50; three open items resolved) |
+| Version | 0.5 draft, 2026-11-17 (second opinion adds Sightengine's deepfake model, ADR-009) |
 | Source | [Research brief](https://claude.ai/artifact/EJUyaN6fcZo5qUfvjfCkLS), decisions agreed 2026-11-04 |
 
 ## 1. Purpose and scope
@@ -100,6 +100,7 @@ Clicking the badge shall open a details popover (REQ-UI-005) showing:
 The popover shall offer a "Get a second opinion" button that sends that one image to the backend, which queries Sightengine and returns a score.
 - Runs only on an explicit click, one image per click. Never automatic.
 - The result is shown in the popover as a separate line; it does not change the badge verdict.
+- When the face-edit score is at least 50%, the same line adds "N% likely face-edited". Below that, the line is unchanged (ADR-009).
 - When the backend is unreachable or over quota, the button shows "Unavailable" and the rest of the extension works normally.
 
 ### REQ-F-010 Settings popup (M)
@@ -117,9 +118,9 @@ The extension shall cache verdicts in `chrome.storage.local`, keyed by a SHA-256
 - "Clear cache" (REQ-F-010) removes all cached verdicts.
 
 ### REQ-F-012 Backend check endpoint (M)
-The backend shall expose `POST /v1/check` that accepts image bytes and returns `{ score, provider, checkedAt }`.
+The backend shall expose `POST /v1/check` that accepts image bytes and returns `{ score, deepfake, provider, checkedAt }`.
 - Accepts JPEG, PNG and WebP only.
-- Calls Sightengine's AI-generated image model and normalizes its result to a 0 to 1 score.
+- Calls Sightengine's AI-generated image and deepfake models in one request and normalizes each result to a 0 to 1 score. `deepfake` is null when the provider gives no face-manipulation score; that never fails the check (ADR-009).
 - Constraints in REQ-SEC-004 to REQ-SEC-006 and REQ-PRV-002 apply.
 
 ### REQ-F-013 Demo sample page (M)
@@ -252,6 +253,6 @@ All text taken from C2PA manifests or IPTC/XMP metadata is untrusted.
 | Item | Affects | Resolve by |
 | --- | --- | --- |
 | Model download size and inference time in the browser | REQ-F-006, REQ-NF-001 | **Resolved 2026-11-15 (TASK-005):** 87 MB (WebGPU, full precision) or 23 MB (WASM, 8-bit). Median inference 47 ms on WebGPU and 440 ms on WASM, both inside the 1 s budget |
-| Sightengine operations per AI-image check (sample response shows 5) | REQ-NF-005 | First backend test |
+| Sightengine operations per check with the genai and deepfake models (sample genai response shows 5; deepfake is billed on top, ADR-009) | REQ-NF-005 | First backend test; lower `DAILY_CAP` if needed to stay within 500 operations a day |
 | Calibrated threshold T | REQ-F-005, REQ-NF-006 | **Resolved 2026-11-16 (TASK-022):** T = 0.50. On 228 scored images: 0 of 128 real photos flagged, 57 of 100 AI images detected (64% of originals, 50% of recompressed copies) |
 | Whether `c2pa-web` exposes trust-list validation directly or it must be configured | REQ-SEC-007 | **Resolved 2026-11-15 (TASK-004):** it must be configured. The extension bundles the C2PA trust lists and passes them as trust anchors; a `validation_state` of `Trusted` is required for Definite |
