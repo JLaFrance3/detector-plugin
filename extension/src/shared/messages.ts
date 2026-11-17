@@ -68,7 +68,14 @@ export type ServiceWorkerRequest =
 
 /** Result of a cloud second opinion. `unavailable` covers offline, over quota and disabled. */
 export type SecondOpinionResponse =
-  | { ok: true; score: number; provider: string; checkedAt: string }
+  | {
+      ok: true;
+      score: number;
+      /** Face-manipulation score from 0 to 1, or null when the backend gave none (ADR-009). */
+      deepfake: number | null;
+      provider: string;
+      checkedAt: string;
+    }
   | { ok: false; reason: 'unavailable' };
 
 /** Service worker -> offscreen document: analyze one image's bytes. */
@@ -356,7 +363,7 @@ const ISO_INSTANT = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?Z$/;
  */
 export function parseSecondOpinionResponse(value: unknown): SecondOpinionResponse {
   if (isObject(value) && value['ok'] !== false) {
-    const { score, provider, checkedAt } = value;
+    const { score, deepfake, provider, checkedAt } = value;
     if (
       typeof score === 'number' &&
       score >= 0 &&
@@ -366,7 +373,9 @@ export function parseSecondOpinionResponse(value: unknown): SecondOpinionRespons
       typeof checkedAt === 'string' &&
       ISO_INSTANT.test(checkedAt)
     ) {
-      return { ok: true, score, provider, checkedAt };
+      // The deepfake score is optional: anything but a 0 to 1 number is dropped, not fatal.
+      const face = typeof deepfake === 'number' && deepfake >= 0 && deepfake <= 1 ? deepfake : null;
+      return { ok: true, score, deepfake: face, provider, checkedAt };
     }
   }
   return { ok: false, reason: 'unavailable' };

@@ -44,6 +44,7 @@ Workflow: set `status: in-progress` when starting, tick acceptance criteria as t
 | [TASK-018](TASK-018-backend-check-endpoint.md) | Backend POST /v1/check | REQ-F-012, REQ-SEC-004, REQ-SEC-005, REQ-SEC-006, REQ-NF-005, REQ-PRV-002 | TASK-001 | in-progress |
 | [TASK-019](TASK-019-second-opinion-flow.md) | Second-opinion flow in the extension | REQ-F-009, REQ-PRV-002, REQ-NF-002 | TASK-016, TASK-018 | done |
 | [TASK-020](TASK-020-deploy-backend.md) | Deploy backend to the droplet | REQ-SEC-005 | TASK-018 | blocked |
+| [TASK-027](TASK-027-deepfake-second-opinion.md) | Add the deepfake model to the second opinion | REQ-F-009, REQ-F-012, REQ-NF-005 | TASK-018, TASK-019 | in-progress |
 
 ## M4: Evaluate, harden, present (week of Nov 30 to Dec 7)
 

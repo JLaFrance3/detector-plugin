@@ -7,7 +7,12 @@ import {
 } from './second-opinion';
 
 const image = new Blob([Uint8Array.from([0xff, 0xd8, 0xff, 0xe0])], { type: 'image/jpeg' });
-const reply = { score: 0.87, provider: 'sightengine', checkedAt: '2026-11-16T12:00:00.000Z' };
+const reply = {
+  score: 0.87,
+  deepfake: 0.12,
+  provider: 'sightengine',
+  checkedAt: '2026-11-16T12:00:00.000Z',
+};
 const deps = { backendUrl: 'https://check.example.com', installToken: 'a'.repeat(32) };
 const unavailable = { ok: false, reason: 'unavailable' };
 

@@ -1,5 +1,5 @@
 // The second-opinion service (REQ-F-012): POST /v1/check takes image bytes and returns
-// { score, provider, checkedAt }. It never accepts or fetches a URL (REQ-SEC-006), keeps
+// { score, deepfake, provider, checkedAt }. It never accepts or fetches a URL (REQ-SEC-006), keeps
 // nothing on disk, and logs neither images, URLs nor client addresses (REQ-PRV-002).
 import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import Fastify, { LogController } from 'fastify';
@@ -24,6 +24,8 @@ export interface AppOptions {
 
 export interface CheckResponse {
   score: number;
+  /** Face-manipulation score, or null when the provider gave none (ADR-009). */
+  deepfake: number | null;
   provider: string;
   checkedAt: string;
 }
@@ -118,6 +120,7 @@ export function buildApp(options: AppOptions): FastifyInstance {
       );
       const response: CheckResponse = {
         score: result.score,
+        deepfake: result.deepfake,
         provider: options.provider.name,
         checkedAt: new Date(now()).toISOString(),
       };

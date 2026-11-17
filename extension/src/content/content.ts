@@ -53,15 +53,24 @@ async function onCandidate(image: HTMLImageElement, url: string): Promise<void> 
   getInPageUi()?.showBadge(image, { kind: result.verdict, tooltip, result });
 }
 
+/** ADR-009: face-edit scores below this are not shown. Same value as the verdict threshold T. */
+const FACE_EDIT_THRESHOLD = 0.5;
+
+const toPercent = (score: number): number => Math.min(99, Math.max(0, Math.floor(score * 100)));
+
 /** REQ-F-009: runs only from a click on the popover button, for that one image. */
 async function secondOpinion(image: HTMLImageElement): Promise<SecondOpinionView> {
   const url = current.get(image);
   if (!url) return { status: 'unavailable' };
   const reply = parseSecondOpinionResponse(await send({ type: 'image:second-opinion', url }));
   if (!reply.ok) return { status: 'unavailable' };
+  // ADR-009: the face-edit score is shown only when it is meaningful, so most results keep
+  // the single short line.
+  const faceEdit = reply.deepfake !== null && reply.deepfake >= FACE_EDIT_THRESHOLD;
   return {
     status: 'ok',
-    percent: Math.min(99, Math.max(0, Math.floor(reply.score * 100))),
+    percent: toPercent(reply.score),
+    faceEditPercent: faceEdit && reply.deepfake !== null ? toPercent(reply.deepfake) : null,
     provider: reply.provider === 'sightengine' ? 'Sightengine' : 'cloud detector',
   };
 }

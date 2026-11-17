@@ -25,7 +25,9 @@ const backend = buildApp({
     name: 'sightengine',
     check: (bytes, type) => {
       uploads.push({ bytes: Buffer.from(bytes), type });
-      return Promise.resolve({ score: 0.874, operations: 5 });
+      // The second upload reports a face edit, to show the extra text (ADR-009).
+      const deepfake = uploads.length === 2 ? 0.881 : 0.03;
+      return Promise.resolve({ score: 0.874, deepfake, operations: 5 });
     },
   },
 });
@@ -123,6 +125,19 @@ try {
       text.includes(s),
     ),
     'REQ-PRV-002: metadata stripped (no XMP, EXIF or C2PA in the upload)',
+  );
+  await page.close();
+
+  console.log('\n# Face edit');
+  ({ page } = await openPopover('AI-edited'));
+  await page.mouse.click(...centre((await button(page)).box));
+  const faced = await waitFor(async () => (await ui(page, 'aid-second-opinion-result'))[0]);
+  const facedText = (faced?.text ?? '').replace(/\s+/g, ' ').trim();
+  check(
+    facedText.includes(
+      'Cloud second opinion: 87% likely AI-generated, 88% likely face-edited (Sightengine)',
+    ),
+    `REQ-F-009: a face-edit score at or over 50% is added to the same line (${facedText})`,
   );
   await page.close();
 

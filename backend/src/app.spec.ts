@@ -17,7 +17,7 @@ function setup(overrides: Partial<AppOptions> = {}) {
     name: 'sightengine',
     check: (bytes, type) => {
       calls.push({ bytes: bytes.length, type });
-      return Promise.resolve({ score: 0.87, operations: 5 });
+      return Promise.resolve({ score: 0.87, deepfake: 0.12, operations: 5 });
     },
   };
   const app = buildApp({ provider, now: () => clock.now, minIntervalMs: 0, ...overrides });
@@ -30,12 +30,13 @@ function setup(overrides: Partial<AppOptions> = {}) {
 }
 
 describe('POST /v1/check', () => {
-  it('REQ-F-012: returns { score, provider, checkedAt } for an image', async () => {
+  it('REQ-F-012: returns { score, deepfake, provider, checkedAt } for an image', async () => {
     const { post, calls } = setup();
     const response = await post(JPEG);
     expect(response.statusCode).toBe(200);
     expect(response.json()).toEqual({
       score: 0.87,
+      deepfake: 0.12,
       provider: 'sightengine',
       checkedAt: '2026-11-16T12:00:00.000Z',
     });
@@ -107,7 +108,7 @@ describe('POST /v1/check', () => {
       name: 'sightengine',
       check: () => {
         outbound.push('provider');
-        return Promise.resolve({ score: 0.1, operations: 1 });
+        return Promise.resolve({ score: 0.1, deepfake: null, operations: 1 });
       },
     };
     const app = buildApp({ provider, minIntervalMs: 0 });
@@ -240,7 +241,7 @@ describe('POST /v1/check', () => {
     const lines: string[] = [];
     const provider: Provider = {
       name: 'sightengine',
-      check: () => Promise.resolve({ score: 0.5, operations: 5 }),
+      check: () => Promise.resolve({ score: 0.5, deepfake: 0.5, operations: 5 }),
     };
     const app = buildApp({
       provider,

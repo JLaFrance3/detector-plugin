@@ -78,9 +78,12 @@
         </button>
       } @else {
         <span class="aid-second-opinion-result" aria-live="polite"
-          >Cloud second opinion: {{ opinion.percent }}% likely AI-generated ({{
-            opinion.provider
-          }})</span
+          >Cloud second opinion: {{ opinion.percent }}% likely AI-generated{{
+            opinion.faceEditPercent === null
+              ? ''
+              : ', ' + opinion.faceEditPercent + '% likely face-edited'
+          }}
+          ({{ opinion.provider }})</span
         >
       }
     }

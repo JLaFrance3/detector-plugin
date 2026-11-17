@@ -54,4 +54,4 @@ systemctl daemon-reload && systemctl enable --now detector-backend && systemctl 
 | Secrets locked down | `stat -c '%a %U:%G' /etc/detector-backend/env` | `640 root:detector` |
 | URL bodies rejected | `curl -s -X POST -H 'content-type: application/json' -d '{"url":"http://169.254.169.254/"}' https://check.example.com/v1/check` | `{"error":"unsupported_media_type"}` |
 
-After the first real check, read the operations count from the service log (`journalctl -u detector-backend | grep operations`) and record it in TASK-018 and in the requirements open items.
+After the first real check, read the operations count from the service log (`journalctl -u detector-backend | grep operations`) and record it in TASK-018 and in the requirements open items. Each check runs both the `genai` and `deepfake` models (ADR-009), so if 100 checks would use more than 500 operations a day, lower `DAILY_CAP` in `/etc/detector-backend/env` to match.
