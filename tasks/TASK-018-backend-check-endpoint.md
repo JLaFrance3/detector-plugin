@@ -27,4 +27,4 @@ Fastify service that accepts image bytes, calls Sightengine's AI-generated image
 - Limits: 10 a minute per IP and per install token (sliding window, in memory), one provider call a second and 100 a day globally. They reset if the process restarts.
 - Logs carry counts only (operations used, checks left today); a test asserts that image bytes, URLs, client addresses and tokens never appear in them.
 - 32 tests in `backend/src/*.spec.ts`, run against the app with a fake provider.
-- **Measured 2026-11-21:** two real checks on the deployed backend each billed **10 operations** (genai plus deepfake). An AI image scored 0.99 and a photograph 0.001. With the free tier's 2,000 operations a month that is 200 checks a month, so `DAILY_CAP` on the server is 20.
+- **Measured 2026-11-21:** two real checks on the deployed backend each billed **10 operations** (genai plus deepfake). An AI image scored 0.99 and a photograph 0.001. The free tier's 2,000 operations a month cover about 200 checks; `DAILY_CAP` stays at 100 by the owner's choice (occasional use; small overage acceptable).

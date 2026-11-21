@@ -72,4 +72,4 @@ systemctl daemon-reload && systemctl enable --now detector-backend && systemctl 
 | Secrets locked down | `stat -c '%a %U:%G' /etc/detector-backend/env` | `640 root:detector` |
 | URL bodies rejected | `curl -s -X POST -H 'content-type: application/json' -d '{"url":"http://169.254.169.254/"}' https://check.example.com/v1/check` | `{"error":"unsupported_media_type"}` |
 
-Each check runs both the `genai` and `deepfake` models (ADR-009) and costs **10 operations** (measured 2026-11-21; `journalctl -u detector-backend | grep operations`). The free tier's 2,000 operations a month allow 200 checks a month, so the server runs with `DAILY_CAP=20`.
+Each check runs both the `genai` and `deepfake` models (ADR-009) and costs **10 operations** (measured 2026-11-21; `journalctl -u detector-backend | grep operations`). The free tier's 2,000 operations a month cover about 200 checks. The server runs with `DAILY_CAP=100` by the owner's choice; lower it in `/etc/detector-backend/env` if usage grows.

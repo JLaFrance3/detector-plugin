@@ -108,9 +108,16 @@ export async function launch({ headless = !process.env.AID_E2E_HEADED, args = []
     }
   }
   if (!context) throw lastError;
-  const serviceWorker =
+  let serviceWorker =
     context.serviceWorkers()[0] ??
     (await context.waitForEvent('serviceworker', { timeout: 15000 }));
+  if (profile) {
+    // A saved profile can keep running the service worker from an earlier build. Reload the
+    // extension so the test always exercises what is in dist/ now.
+    const fresh = context.waitForEvent('serviceworker', { timeout: 15000 });
+    await serviceWorker.evaluate(() => chrome.runtime.reload()).catch(() => {});
+    serviceWorker = await fresh;
+  }
   const extensionId = new URL(serviceWorker.url()).host;
   return {
     context,

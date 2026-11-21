@@ -1,7 +1,7 @@
 ---
 id: TASK-020
 title: Deploy backend to the droplet
-status: blocked
+status: done
 milestone: M3
 requirements: [REQ-SEC-005]
 depends_on: [TASK-018]
@@ -13,9 +13,9 @@ Run the backend on the DigitalOcean droplet behind Caddy with automatic HTTPS, a
 
 ## Acceptance criteria
 
-- [ ] HTTPS only; HTTP redirects
-- [ ] Restarts on failure and on reboot
-- [ ] Secrets in an env file readable only by the service user
+- [x] HTTPS only; HTTP redirects
+- [x] Restarts on failure and on reboot
+- [x] Secrets in an env file readable only by the service user
 
 ## Notes from implementation (2026-11-16)
 
