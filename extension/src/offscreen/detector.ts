@@ -8,6 +8,7 @@ import {
   RawImage,
   env,
 } from '@huggingface/transformers';
+import { combineViewScores, planViews } from '../shared/views';
 
 // The upstream repository with the corrected weights (see ADR-008). The onnx-community export
 // named in the original requirements was converted from the wrong checkpoint and scores every
@@ -26,8 +27,10 @@ export interface DetectorConfig {
 }
 
 export interface DetectorScore {
-  /** Probability from 0 to 1 that the image is AI-generated. */
+  /** Probability from 0 to 1 that the image is AI-generated: the highest view score. */
   score: number;
+  /** Score of each view, in the order planViews returned them. */
+  viewScores: number[];
   device: DetectorDevice;
   dtype: DetectorDtype;
   /** Preprocessing plus inference time for this image, in milliseconds. */
@@ -120,13 +123,23 @@ export async function scoreImage(blob: Blob, config: DetectorConfig): Promise<De
   const { model, processor } = await loadDetector(config);
   const started = performance.now();
   const image = (await RawImage.fromBlob(blob)).rgb();
-  const inputs = (await processor(image)) as Record<string, unknown>;
+  // Several views, scored in one batch; the highest score counts (ADR-010).
+  const views = await Promise.all(
+    planViews(image.width, image.height).map(async (plan) => {
+      let view = image;
+      if (plan.crop) view = await view.crop(plan.crop);
+      if (plan.resize) view = await view.resize(plan.resize.width, plan.resize.height);
+      return view;
+    }),
+  );
+  const inputs = (await processor(views)) as Record<string, unknown>;
   const output = (await model(inputs)) as { logits: { data: ArrayLike<number> } };
-  // One logit; its sigmoid is the probability that the image is generated.
-  const logit = Number(output.logits.data[0]);
-  const score = 1 / (1 + Math.exp(-logit));
+  // One logit per view; its sigmoid is the probability that the image is generated.
+  const viewScores = Array.from(output.logits.data, (logit) => 1 / (1 + Math.exp(-Number(logit))));
+  const score = combineViewScores(viewScores);
   return {
     score,
+    viewScores,
     device: config.device,
     dtype: config.dtype,
     ms: Math.round(performance.now() - started),

@@ -74,8 +74,8 @@ Image: `images/threshold-chart.svg`.
 
 - 228 scores: 50 AI images from 7 generators and 64 real photographs, each also recompressed.
 - Threshold T = 0.50: **0 of 128 real photos flagged**. In the cross-site run, 0 of 97 real-site images flagged.
-- **57 of 100 AI images caught**: 64% of originals, 50% after recompression.
-- Uneven by generator: DALL-E 85%, Stable Diffusion 83%, Midjourney 23%.
+- **63 of 100 AI images caught**: 76% of originals, 50% after recompression (scoring three views of each image, ADR-010).
+- Uneven by generator: DALL-E 92%, Stable Diffusion 83%, Midjourney 46%.
 
 Notes: be direct that detection is partial and say why this is the right trade: a warning tool that cries wolf gets uninstalled, so the threshold was set for false positives first. Provenance is the reliable path; the detector is a fallback for stripped images. Limits: small set, one source, labels from Commons categories. Source: `extension/eval/RESULTS.md`.
 

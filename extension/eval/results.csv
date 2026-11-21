@@ -1,103 +1,103 @@
 id,variant,label,group,verdict,basis,score
 ai-midjourney-01,original,ai,Midjourney,none,,0.082204
 ai-midjourney-01,recompressed,ai,Midjourney,none,,0.056807
-ai-midjourney-02,original,ai,Midjourney,none,,0.544078
+ai-midjourney-02,original,ai,Midjourney,likely,score,0.544078
 ai-midjourney-02,recompressed,ai,Midjourney,none,,0.333101
-ai-midjourney-03,original,ai,Midjourney,none,,0.192735
+ai-midjourney-03,original,ai,Midjourney,none,,0.220338
 ai-midjourney-03,recompressed,ai,Midjourney,none,,0.104960
-ai-midjourney-04,original,ai,Midjourney,likely,score,0.987943
+ai-midjourney-04,original,ai,Midjourney,likely,score,0.991231
 ai-midjourney-04,recompressed,ai,Midjourney,likely,score,0.984645
-ai-midjourney-05,original,ai,Midjourney,none,,0.018553
+ai-midjourney-05,original,ai,Midjourney,none,,0.197069
 ai-midjourney-05,recompressed,ai,Midjourney,none,,0.007581
-ai-midjourney-06,original,ai,Midjourney,none,,0.456540
+ai-midjourney-06,original,ai,Midjourney,likely,score,0.976608
 ai-midjourney-06,recompressed,ai,Midjourney,none,,0.202370
 ai-midjourney-07,original,ai,Midjourney,none,,0.397499
 ai-midjourney-07,recompressed,ai,Midjourney,none,,0.349648
-ai-midjourney-08,original,ai,Midjourney,none,,0.217249
+ai-midjourney-08,original,ai,Midjourney,likely,score,0.654260
 ai-midjourney-08,recompressed,ai,Midjourney,none,,0.005576
-ai-midjourney-09,original,ai,Midjourney,none,,0.312197
+ai-midjourney-09,original,ai,Midjourney,none,,0.335893
 ai-midjourney-09,recompressed,ai,Midjourney,none,,0.001408
-ai-midjourney-10,original,ai,Midjourney,none,,0.237421
+ai-midjourney-10,original,ai,Midjourney,likely,score,0.999965
 ai-midjourney-10,recompressed,ai,Midjourney,none,,0.014604
 ai-midjourney-11,original,ai,Midjourney,none,,0.080000
 ai-midjourney-11,recompressed,ai,Midjourney,none,,0.012648
-ai-midjourney-12,original,ai,Midjourney,none,,0.656847
+ai-midjourney-12,original,ai,Midjourney,likely,score,0.992015
 ai-midjourney-12,recompressed,ai,Midjourney,none,,0.027479
-ai-midjourney-13,original,ai,Midjourney,none,,0.000034
+ai-midjourney-13,original,ai,Midjourney,none,,0.000450
 ai-midjourney-13,recompressed,ai,Midjourney,none,,0.000004
-ai-dall-e-01,original,ai,DALL-E,likely,score,0.905918
+ai-dall-e-01,original,ai,DALL-E,likely,score,0.993347
 ai-dall-e-01,recompressed,ai,DALL-E,none,,0.008181
-ai-dall-e-02,original,ai,DALL-E,none,,0.004879
+ai-dall-e-02,original,ai,DALL-E,none,,0.078627
 ai-dall-e-02,recompressed,ai,DALL-E,none,,0.000392
-ai-dall-e-03,original,ai,DALL-E,likely,score,0.999306
+ai-dall-e-03,original,ai,DALL-E,likely,score,0.999698
 ai-dall-e-03,recompressed,ai,DALL-E,likely,score,0.999524
-ai-dall-e-04,original,ai,DALL-E,likely,score,0.986895
+ai-dall-e-04,original,ai,DALL-E,likely,score,0.999998
 ai-dall-e-04,recompressed,ai,DALL-E,likely,score,0.945139
-ai-dall-e-05,original,ai,DALL-E,likely,score,0.998825
+ai-dall-e-05,original,ai,DALL-E,likely,score,0.999981
 ai-dall-e-05,recompressed,ai,DALL-E,likely,score,0.999924
-ai-dall-e-06,original,ai,DALL-E,none,,0.298688
-ai-dall-e-06,recompressed,ai,DALL-E,none,,0.856097
-ai-dall-e-07,original,ai,DALL-E,likely,score,0.997370
+ai-dall-e-06,original,ai,DALL-E,likely,score,0.999968
+ai-dall-e-06,recompressed,ai,DALL-E,likely,score,0.856097
+ai-dall-e-07,original,ai,DALL-E,likely,score,0.999997
 ai-dall-e-07,recompressed,ai,DALL-E,likely,score,0.999167
 ai-dall-e-08,original,ai,DALL-E,likely,score,0.996335
-ai-dall-e-08,recompressed,ai,DALL-E,none,,0.868931
-ai-dall-e-09,original,ai,DALL-E,likely,score,0.968958
-ai-dall-e-09,recompressed,ai,DALL-E,none,,0.861012
-ai-dall-e-10,original,ai,DALL-E,none,,0.887297
+ai-dall-e-08,recompressed,ai,DALL-E,likely,score,0.868931
+ai-dall-e-09,original,ai,DALL-E,likely,score,0.999858
+ai-dall-e-09,recompressed,ai,DALL-E,likely,score,0.861012
+ai-dall-e-10,original,ai,DALL-E,likely,score,0.998599
 ai-dall-e-10,recompressed,ai,DALL-E,none,,0.003410
-ai-dall-e-11,original,ai,DALL-E,likely,score,0.999820
+ai-dall-e-11,original,ai,DALL-E,likely,score,0.999959
 ai-dall-e-11,recompressed,ai,DALL-E,likely,score,0.999410
-ai-dall-e-12,original,ai,DALL-E,likely,score,0.916130
+ai-dall-e-12,original,ai,DALL-E,likely,score,0.999992
 ai-dall-e-12,recompressed,ai,DALL-E,likely,score,0.973880
-ai-dall-e-13,original,ai,DALL-E,none,,0.792675
-ai-dall-e-13,recompressed,ai,DALL-E,none,,0.676186
-ai-stable-diffusion-01,original,ai,Stable Diffusion,likely,score,0.999946
+ai-dall-e-13,original,ai,DALL-E,likely,score,0.823764
+ai-dall-e-13,recompressed,ai,DALL-E,likely,score,0.676186
+ai-stable-diffusion-01,original,ai,Stable Diffusion,likely,score,0.999999
 ai-stable-diffusion-01,recompressed,ai,Stable Diffusion,likely,score,0.997008
-ai-stable-diffusion-02,original,ai,Stable Diffusion,likely,score,0.999995
+ai-stable-diffusion-02,original,ai,Stable Diffusion,likely,score,0.999999
 ai-stable-diffusion-02,recompressed,ai,Stable Diffusion,likely,score,0.999733
-ai-stable-diffusion-04,original,ai,Stable Diffusion,likely,score,0.999998
+ai-stable-diffusion-04,original,ai,Stable Diffusion,likely,score,0.999999
 ai-stable-diffusion-04,recompressed,ai,Stable Diffusion,likely,score,0.999994
-ai-stable-diffusion-05,original,ai,Stable Diffusion,none,,0.561867
+ai-stable-diffusion-05,original,ai,Stable Diffusion,likely,score,0.999999
 ai-stable-diffusion-05,recompressed,ai,Stable Diffusion,none,,0.324506
-ai-stable-diffusion-06,original,ai,Stable Diffusion,none,,0.003160
+ai-stable-diffusion-06,original,ai,Stable Diffusion,none,,0.017862
 ai-stable-diffusion-06,recompressed,ai,Stable Diffusion,none,,0.000491
-ai-stable-diffusion-07,original,ai,Stable Diffusion,likely,score,0.999498
+ai-stable-diffusion-07,original,ai,Stable Diffusion,likely,score,0.999998
 ai-stable-diffusion-07,recompressed,ai,Stable Diffusion,likely,score,0.999343
-ai-stable-diffusion-08,original,ai,Stable Diffusion,likely,score,0.995783
+ai-stable-diffusion-08,original,ai,Stable Diffusion,likely,score,0.999998
 ai-stable-diffusion-08,recompressed,ai,Stable Diffusion,likely,score,0.943570
-ai-stable-diffusion-09,original,ai,Stable Diffusion,likely,score,0.955960
-ai-stable-diffusion-09,recompressed,ai,Stable Diffusion,none,,0.803126
-ai-stable-diffusion-10,original,ai,Stable Diffusion,likely,score,0.999035
-ai-stable-diffusion-10,recompressed,ai,Stable Diffusion,none,,0.850474
-ai-stable-diffusion-11,original,ai,Stable Diffusion,likely,score,0.999393
-ai-stable-diffusion-11,recompressed,ai,Stable Diffusion,none,,0.668440
-ai-stable-diffusion-12,original,ai,Stable Diffusion,none,,0.835446
+ai-stable-diffusion-09,original,ai,Stable Diffusion,likely,score,0.999987
+ai-stable-diffusion-09,recompressed,ai,Stable Diffusion,likely,score,0.803126
+ai-stable-diffusion-10,original,ai,Stable Diffusion,likely,score,0.999959
+ai-stable-diffusion-10,recompressed,ai,Stable Diffusion,likely,score,0.850474
+ai-stable-diffusion-11,original,ai,Stable Diffusion,likely,score,0.999940
+ai-stable-diffusion-11,recompressed,ai,Stable Diffusion,likely,score,0.668440
+ai-stable-diffusion-12,original,ai,Stable Diffusion,likely,score,0.999957
 ai-stable-diffusion-12,recompressed,ai,Stable Diffusion,none,,0.122731
 ai-stable-diffusion-13,original,ai,Stable Diffusion,none,,0.001124
 ai-stable-diffusion-13,recompressed,ai,Stable Diffusion,none,,0.011508
-ai-flux-01,original,ai,Flux,none,,0.540113
+ai-flux-01,original,ai,Flux,likely,score,0.540113
 ai-flux-01,recompressed,ai,Flux,likely,score,0.933332
 ai-imagen-01,original,ai,Imagen,likely,score,0.999883
 ai-imagen-01,recompressed,ai,Imagen,none,,0.046213
-ai-imagen-02,original,ai,Imagen,none,,0.621965
-ai-imagen-02,recompressed,ai,Imagen,none,,0.695744
-ai-leonardo-ai-01,original,ai,Leonardo AI,likely,score,0.975712
+ai-imagen-02,original,ai,Imagen,likely,score,0.999251
+ai-imagen-02,recompressed,ai,Imagen,likely,score,0.695744
+ai-leonardo-ai-01,original,ai,Leonardo AI,likely,score,0.999985
 ai-leonardo-ai-01,recompressed,ai,Leonardo AI,likely,score,0.982863
-ai-leonardo-ai-02,original,ai,Leonardo AI,none,,0.065490
+ai-leonardo-ai-02,original,ai,Leonardo AI,likely,score,0.999978
 ai-leonardo-ai-02,recompressed,ai,Leonardo AI,none,,0.055171
 ai-leonardo-ai-03,original,ai,Leonardo AI,likely,score,0.987577
 ai-leonardo-ai-03,recompressed,ai,Leonardo AI,none,,0.008491
-ai-leonardo-ai-04,original,ai,Leonardo AI,likely,score,0.999770
+ai-leonardo-ai-04,original,ai,Leonardo AI,likely,score,0.999982
 ai-leonardo-ai-04,recompressed,ai,Leonardo AI,likely,score,0.998526
-ai-leonardo-ai-05,original,ai,Leonardo AI,likely,score,0.993667
+ai-leonardo-ai-05,original,ai,Leonardo AI,likely,score,0.999987
 ai-leonardo-ai-05,recompressed,ai,Leonardo AI,likely,score,0.990352
-ai-meta-ai-01,original,ai,Meta AI,likely,score,0.964577
-ai-meta-ai-01,recompressed,ai,Meta AI,none,,0.569761
+ai-meta-ai-01,original,ai,Meta AI,likely,score,0.994831
+ai-meta-ai-01,recompressed,ai,Meta AI,likely,score,0.569761
 ai-meta-ai-02,original,ai,Meta AI,none,,0.003046
 ai-meta-ai-02,recompressed,ai,Meta AI,none,,0.014021
-ai-meta-ai-03,original,ai,Meta AI,none,,0.019995
+ai-meta-ai-03,original,ai,Meta AI,none,,0.028883
 ai-meta-ai-03,recompressed,ai,Meta AI,none,,0.194214
-ai-meta-ai-04,original,ai,Meta AI,none,,0.099834
+ai-meta-ai-04,original,ai,Meta AI,likely,score,0.999961
 ai-meta-ai-04,recompressed,ai,Meta AI,none,,0.297227
 real-quality-images-01,original,real,Quality images,none,,0.000667
 real-quality-images-01,recompressed,real,Quality images,none,,0.002541
@@ -129,35 +129,35 @@ real-quality-images-14,original,real,Quality images,none,,0.009868
 real-quality-images-14,recompressed,real,Quality images,none,,0.000814
 real-quality-images-15,original,real,Quality images,none,,0.000205
 real-quality-images-15,recompressed,real,Quality images,none,,0.000456
-real-quality-images-16,original,real,Quality images,none,,0.010569
+real-quality-images-16,original,real,Quality images,none,,0.017706
 real-quality-images-16,recompressed,real,Quality images,none,,0.037491
 real-quality-images-17,original,real,Quality images,none,,0.000036
 real-quality-images-17,recompressed,real,Quality images,none,,0.000007
 real-quality-images-18,original,real,Quality images,none,,0.000077
 real-quality-images-18,recompressed,real,Quality images,none,,0.000017
-real-quality-images-19,original,real,Quality images,none,,0.000302
+real-quality-images-19,original,real,Quality images,none,,0.000729
 real-quality-images-19,recompressed,real,Quality images,none,,0.000335
-real-quality-images-20,original,real,Quality images,none,,0.000021
+real-quality-images-20,original,real,Quality images,none,,0.000029
 real-quality-images-20,recompressed,real,Quality images,none,,0.000022
 real-quality-images-21,original,real,Quality images,none,,0.000217
 real-quality-images-21,recompressed,real,Quality images,none,,0.000008
 real-quality-images-22,original,real,Quality images,none,,0.000147
 real-quality-images-22,recompressed,real,Quality images,none,,0.000037
-real-quality-images-23,original,real,Quality images,none,,0.001035
+real-quality-images-23,original,real,Quality images,none,,0.005709
 real-quality-images-23,recompressed,real,Quality images,none,,0.000933
 real-quality-images-24,original,real,Quality images,none,,0.000065
 real-quality-images-24,recompressed,real,Quality images,none,,0.000011
 real-quality-images-25,original,real,Quality images,none,,0.000023
 real-quality-images-25,recompressed,real,Quality images,none,,0.000403
-real-quality-images-26,original,real,Quality images,none,,0.000140
+real-quality-images-26,original,real,Quality images,none,,0.001335
 real-quality-images-26,recompressed,real,Quality images,none,,0.000468
-real-quality-images-27,original,real,Quality images,none,,0.000145
+real-quality-images-27,original,real,Quality images,none,,0.001134
 real-quality-images-27,recompressed,real,Quality images,none,,0.000138
 real-quality-images-28,original,real,Quality images,none,,0.004934
 real-quality-images-28,recompressed,real,Quality images,none,,0.001012
-real-quality-images-29,original,real,Quality images,none,,0.000071
+real-quality-images-29,original,real,Quality images,none,,0.000097
 real-quality-images-29,recompressed,real,Quality images,none,,0.000090
-real-quality-images-30,original,real,Quality images,none,,0.000200
+real-quality-images-30,original,real,Quality images,none,,0.000235
 real-quality-images-30,recompressed,real,Quality images,none,,0.002656
 real-quality-images-31,original,real,Quality images,none,,0.000028
 real-quality-images-31,recompressed,real,Quality images,none,,0.000015
@@ -169,9 +169,9 @@ real-quality-images-34,original,real,Quality images,none,,0.000231
 real-quality-images-34,recompressed,real,Quality images,none,,0.000104
 real-quality-images-35,original,real,Quality images,none,,0.000014
 real-quality-images-35,recompressed,real,Quality images,none,,0.000010
-real-quality-images-36,original,real,Quality images,none,,0.000019
+real-quality-images-36,original,real,Quality images,none,,0.000048
 real-quality-images-36,recompressed,real,Quality images,none,,0.000012
-real-quality-images-37,original,real,Quality images,none,,0.000021
+real-quality-images-37,original,real,Quality images,none,,0.000034
 real-quality-images-37,recompressed,real,Quality images,none,,0.000090
 real-quality-images-38,original,real,Quality images,none,,0.000010
 real-quality-images-38,recompressed,real,Quality images,none,,0.000001
@@ -185,23 +185,23 @@ real-quality-images-42,original,real,Quality images,none,,0.005959
 real-quality-images-42,recompressed,real,Quality images,none,,0.000024
 real-quality-images-43,original,real,Quality images,none,,0.000049
 real-quality-images-43,recompressed,real,Quality images,none,,0.000056
-real-quality-images-44,original,real,Quality images,none,,0.000011
+real-quality-images-44,original,real,Quality images,none,,0.000041
 real-quality-images-44,recompressed,real,Quality images,none,,0.000023
 real-quality-images-45,original,real,Quality images,none,,0.001102
 real-quality-images-45,recompressed,real,Quality images,none,,0.000299
 real-quality-images-46,original,real,Quality images,none,,0.000258
 real-quality-images-46,recompressed,real,Quality images,none,,0.000029
-real-quality-images-47,original,real,Quality images,none,,0.000104
+real-quality-images-47,original,real,Quality images,none,,0.003654
 real-quality-images-47,recompressed,real,Quality images,none,,0.000008
 real-quality-images-48,original,real,Quality images,none,,0.000024
 real-quality-images-48,recompressed,real,Quality images,none,,0.000008
-real-quality-images-49,original,real,Quality images,none,,0.001149
+real-quality-images-49,original,real,Quality images,none,,0.008144
 real-quality-images-49,recompressed,real,Quality images,none,,0.006099
 real-quality-images-50,original,real,Quality images,none,,0.000533
 real-quality-images-50,recompressed,real,Quality images,none,,0.000042
 real-quality-images-51,original,real,Quality images,none,,0.000099
 real-quality-images-51,recompressed,real,Quality images,none,,0.000011
-real-quality-images-52,original,real,Quality images,none,,0.000053
+real-quality-images-52,original,real,Quality images,none,,0.000356
 real-quality-images-52,recompressed,real,Quality images,none,,0.000035
 real-quality-images-53,original,real,Quality images,none,,0.000133
 real-quality-images-53,recompressed,real,Quality images,none,,0.000020
@@ -213,17 +213,17 @@ real-quality-images-56,original,real,Quality images,none,,0.000187
 real-quality-images-56,recompressed,real,Quality images,none,,0.000063
 real-quality-images-57,original,real,Quality images,none,,0.000051
 real-quality-images-57,recompressed,real,Quality images,none,,0.000037
-real-quality-images-58,original,real,Quality images,none,,0.000019
+real-quality-images-58,original,real,Quality images,none,,0.000170
 real-quality-images-58,recompressed,real,Quality images,none,,0.000075
 real-quality-images-59,original,real,Quality images,none,,0.000125
 real-quality-images-59,recompressed,real,Quality images,none,,0.000695
 real-quality-images-60,original,real,Quality images,none,,0.000234
 real-quality-images-60,recompressed,real,Quality images,none,,0.000278
-real-quality-images-61,original,real,Quality images,none,,0.000061
+real-quality-images-61,original,real,Quality images,none,,0.002174
 real-quality-images-61,recompressed,real,Quality images,none,,0.000736
 real-quality-images-62,original,real,Quality images,none,,0.000106
 real-quality-images-62,recompressed,real,Quality images,none,,0.000182
-real-quality-images-63,original,real,Quality images,none,,0.000005
+real-quality-images-63,original,real,Quality images,none,,0.027625
 real-quality-images-63,recompressed,real,Quality images,none,,0.000191
-real-quality-images-64,original,real,Quality images,none,,0.000049
+real-quality-images-64,original,real,Quality images,none,,0.000057
 real-quality-images-64,recompressed,real,Quality images,none,,0.000016

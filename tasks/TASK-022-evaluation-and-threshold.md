@@ -26,3 +26,5 @@ Build a labeled set of at least 100 images and choose threshold T.
 - Detection varies a lot by generator: DALL-E 85%, Stable Diffusion 83%, Leonardo AI 80%, but Midjourney 23% and Meta AI 25%. The detector misses many recent photorealistic images, which is the honest headline for the presentation: provenance is reliable when present, detection is a useful but partial fallback.
 - `DEFAULT_THRESHOLD` in `extension/src/shared/types.ts` and the requirements are updated.
 - Two mislabelled entries were excluded by hand and are marked in the manifest.
+
+- **Update 2026-11-21 (TASK-028, ADR-010):** with three views per image, detection is 63 of 100 (76% of originals); real photos flagged still 0 of 128. `RESULTS.md` and the chart show the new numbers.
