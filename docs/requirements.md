@@ -253,6 +253,6 @@ All text taken from C2PA manifests or IPTC/XMP metadata is untrusted.
 | Item | Affects | Resolve by |
 | --- | --- | --- |
 | Model download size and inference time in the browser | REQ-F-006, REQ-NF-001 | **Resolved 2026-11-15 (TASK-005):** 87 MB (WebGPU, full precision) or 23 MB (WASM, 8-bit). Median inference 47 ms on WebGPU and 440 ms on WASM, both inside the 1 s budget |
-| Sightengine operations per check with the genai and deepfake models (sample genai response shows 5; deepfake is billed on top, ADR-009) | REQ-NF-005 | First backend test; lower `DAILY_CAP` if needed to stay within 500 operations a day |
+| Sightengine operations per check with the genai and deepfake models (sample genai response shows 5; deepfake is billed on top, ADR-009) | REQ-NF-005 | **Resolved 2026-11-21 (TASK-018):** 10 operations per check, measured on the deployed backend. The free tier (500 a day, 2,000 a month) therefore allows 200 checks a month; `DAILY_CAP` is set to 20 so the monthly quota lasts about 10 days of heavy use |
 | Calibrated threshold T | REQ-F-005, REQ-NF-006 | **Resolved 2026-11-16 (TASK-022):** T = 0.50. On 228 scored images: 0 of 128 real photos flagged, 57 of 100 AI images detected (64% of originals, 50% of recompressed copies) |
 | Whether `c2pa-web` exposes trust-list validation directly or it must be configured | REQ-SEC-007 | **Resolved 2026-11-15 (TASK-004):** it must be configured. The extension bundles the C2PA trust lists and passes them as trust anchors; a `validation_state` of `Trusted` is required for Definite |

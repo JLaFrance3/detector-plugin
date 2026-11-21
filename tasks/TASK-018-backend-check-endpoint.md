@@ -1,7 +1,7 @@
 ---
 id: TASK-018
 title: Backend POST /v1/check
-status: in-progress
+status: done
 milestone: M3
 requirements: [REQ-F-012, REQ-SEC-004, REQ-SEC-005, REQ-SEC-006, REQ-NF-005, REQ-PRV-002]
 depends_on: [TASK-001]
@@ -18,7 +18,7 @@ Fastify service that accepts image bytes, calls Sightengine's AI-generated image
 - [x] Rate limits: 10/min per IP and per install token, 1 req/s and 100/day global
 - [x] Key read from environment only; generic error messages
 - [x] No images or URLs persisted or logged
-- [ ] Record the real `request.operations` per check (open item)
+- [x] Record the real `request.operations` per check (open item)
 
 ## Notes from implementation (2026-11-16)
 
@@ -27,4 +27,4 @@ Fastify service that accepts image bytes, calls Sightengine's AI-generated image
 - Limits: 10 a minute per IP and per install token (sliding window, in memory), one provider call a second and 100 a day globally. They reset if the process restarts.
 - Logs carry counts only (operations used, checks left today); a test asserts that image bytes, URLs, client addresses and tokens never appear in them.
 - 32 tests in `backend/src/*.spec.ts`, run against the app with a fake provider.
-- **Open:** the last criterion needs one real call with a Sightengine key. The service logs `operations` for every check, so the number can be read from the log after the first real request (see `backend/deploy/README.md`).
+- **Measured 2026-11-21:** two real checks on the deployed backend each billed **10 operations** (genai plus deepfake). An AI image scored 0.99 and a photograph 0.001. With the free tier's 2,000 operations a month that is 200 checks a month, so `DAILY_CAP` on the server is 20.
