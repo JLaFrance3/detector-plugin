@@ -15,8 +15,10 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const dist = join(root, 'dist');
 const dev = process.argv.includes('--dev');
 const watch = process.argv.includes('--watch');
-// Optional second-opinion backend (TASK-019). Leave unset to build without one.
-let backendUrl = (process.env.AID_BACKEND_URL ?? '').trim();
+// Second-opinion backend (TASK-019, TASK-020). Builds use the deployed backend unless
+// AID_BACKEND_URL says otherwise; set AID_BACKEND_URL= (empty) to build without one.
+const DEFAULT_BACKEND_URL = 'https://jeanlafrance.xyz';
+let backendUrl = (process.env.AID_BACKEND_URL ?? DEFAULT_BACKEND_URL).trim();
 while (backendUrl.endsWith('/')) backendUrl = backendUrl.slice(0, -1);
 
 const staticFiles = [

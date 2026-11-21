@@ -42,10 +42,16 @@ Then open `chrome://extensions`, turn on Developer mode, choose "Load unpacked" 
 
 ## Second-opinion backend (optional)
 
-The extension works without a backend. To enable the "Get a second opinion" button, deploy `backend/` (see `backend/README.md`), then build the extension with its address and switch the feature on in the popup:
+The extension works without a backend. Builds point at the project's deployed backend, `https://jeanlafrance.xyz`, by default (see `backend/README.md`). The feature stays off until it is switched on in the popup ("Cloud second opinion"), and each click sends one image.
+
+To use a different backend, or to build without one:
 
 ```bash
 AID_BACKEND_URL=https://check.example.com npm run build
+```
+
+```bash
+AID_BACKEND_URL= npm run build
 ```
 
 The address must be HTTPS (plain HTTP is accepted only for `127.0.0.1` and `localhost` during development).

@@ -74,6 +74,8 @@ section('Network destinations in the bundle (REQ-PRV-001, REQ-PRV-003)');
 // Why each host may appear. "contacted" hosts are the only ones the extension connects to.
 const reviewed = {
   'huggingface.co': 'contacted: one-time download of the detector model weights',
+  'jeanlafrance.xyz':
+    'contacted only when the user clicks "Get a second opinion" with the cloud setting on (project backend)',
   'synthid.com': 'link in the details popover, opened only when the user clicks it',
   'openai.com': 'link in the details popover, opened only when the user clicks it',
   'claude.com': 'link in the details popover, opened only when the user clicks it',

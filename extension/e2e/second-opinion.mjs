@@ -10,12 +10,17 @@ import { checker, findInExtensionUi, launch, serve, waitFor } from './harness.mj
 
 const PORT = 8791;
 const root = join(import.meta.dirname, '..');
-const rebuild = (backendUrl) =>
+/** Rebuilds the esbuild scripts; `undefined` restores the default backend address. */
+const rebuild = (backendUrl) => {
+  const env = { ...process.env };
+  if (backendUrl === undefined) delete env.AID_BACKEND_URL;
+  else env.AID_BACKEND_URL = backendUrl;
   execFileSync(process.execPath, ['scripts/build.mjs'], {
     cwd: root,
-    env: { ...process.env, AID_BACKEND_URL: backendUrl },
+    env,
     stdio: 'ignore',
   });
+};
 
 const check = checker();
 const uploads = [];
@@ -179,7 +184,7 @@ try {
   await browser.close();
   await site.close();
   await backend.close().catch(() => {});
-  rebuild(''); // restore the normal build, which has no backend URL
+  rebuild(undefined); // restore the normal build with the default backend address
 }
 
 check.finish('second-opinion');
