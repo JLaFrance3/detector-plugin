@@ -7,6 +7,7 @@ import {
   inject,
   viewChildren,
 } from '@angular/core';
+import { chipText } from '../../../../src/shared/ui-bridge';
 import { OverlayStore } from './overlay-store';
 import { Popover } from './popover';
 
@@ -26,6 +27,7 @@ import { Popover } from './popover';
 })
 export class App {
   protected readonly store = inject(OverlayStore);
+  protected readonly chipText = chipText;
   private readonly badgeButtons = viewChildren<ElementRef<HTMLButtonElement>>('badgeButton');
 
   constructor() {

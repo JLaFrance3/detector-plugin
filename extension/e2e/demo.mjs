@@ -67,7 +67,7 @@ try {
   for (const [section, expected] of [
     ['definite', /^AI-(generated|edited) \(Content Credentials\)$/],
     ['likely', /^Likely AI · \d+%$/],
-    ['none', null],
+    ['none', /^Not flagged · details$/],
   ]) {
     console.log(`\n# ${section}`);
     for (let i = 0; i < listing[section].length; i++) {

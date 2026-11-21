@@ -118,3 +118,17 @@ describe('describeResult', () => {
     expect(formatSignedDate(null)).toBeNull();
   });
 });
+
+describe('neutral marker details (ADR-011)', () => {
+  it('REQ-UI-003: an unflagged image is described as not flagged, with the caveat', () => {
+    const v = view({
+      c2pa: c2pa({ present: false, valid: false, trusted: false }),
+      iptc: { aiSource: null },
+      detector: { score: 0.02 },
+    });
+    expect(v.title).toBe('Not flagged');
+    expect(v.confidence).toBe('No AI signal found');
+    expect(row(v, 'On-device detector')?.summary).toBe('2% likely AI-generated');
+    expect(JSON.stringify(v).toLowerCase()).not.toMatch(/authentic|human-made|genuine|is real/);
+  });
+});

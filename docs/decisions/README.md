@@ -13,3 +13,5 @@ Short records of decisions and why they were made. Format: Status, Context, Deci
 | [007](ADR-007-local-tickets-traceability.md) | Local markdown tickets with REQ/TASK traceability | Accepted |
 | [008](ADR-008-corrected-detector-weights.md) | Use the corrected upstream detector weights, pinned to a revision (amends 003) | Proposed |
 | [009](ADR-009-deepfake-in-second-opinion.md) | Add Sightengine's deepfake model to the cloud second opinion (amends 006) | Accepted |
+| [010](ADR-010-multi-view-detector.md) | Score several views of each image and keep the highest (amends 003) | Accepted |
+| [011](ADR-011-neutral-marker.md) | Neutral marker on unflagged images, shown on hover (amends REQ-F-007) | Accepted |

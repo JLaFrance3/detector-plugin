@@ -163,3 +163,45 @@ describe('In-page App', () => {
     }
   });
 });
+
+describe('Neutral marker (ADR-011)', () => {
+  const none = decideVerdict({ c2pa: null, iptc: null, detector: { score: 0.02 } });
+  const neutral = (id: number): BadgeModel => ({
+    id,
+    view: { kind: 'none', tooltip: 'Not flagged · details', result: none },
+    left: 10,
+    top: 10,
+    visible: true,
+  });
+
+  it('REQ-UI-004: an unflagged image gets a hidden marker that appears on hover', async () => {
+    const { store, root, settle } = await render();
+    store.badges.set([neutral(5)]);
+    await settle();
+    const marker = root().querySelector('.aid-badge') as HTMLElement;
+    expect(marker.classList.contains('aid-neutral')).toBe(true);
+    expect(marker.classList.contains('aid-revealed')).toBe(false);
+    expect(marker.querySelector('.aid-chip')?.textContent?.trim()).toBe('i');
+    expect(marker.getAttribute('aria-label')).toBe('Not flagged · details');
+    store.hoveredId.set(5);
+    await settle();
+    expect(marker.classList.contains('aid-revealed')).toBe(true);
+  });
+
+  it('REQ-F-009: the marker opens the same details panel, with the second-opinion button', async () => {
+    const { store, root, settle } = await render();
+    store.badges.set([neutral(6)]);
+    store.configure({
+      cloudEnabled: true,
+      requestSecondOpinion: () => Promise.resolve({ status: 'unavailable' }),
+    });
+    store.openId.set(6);
+    await settle();
+    const popover = root().querySelector('.aid-popover') as HTMLElement;
+    expect(popover.textContent).toContain('Not flagged');
+    expect(popover.textContent).toContain('No mark does not mean an image is real.');
+    expect(root().querySelector('.aid-second-opinion')?.textContent).toContain(
+      'Get a second opinion',
+    );
+  });
+});

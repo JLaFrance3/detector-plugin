@@ -53,6 +53,9 @@ const openPopover = async (prefix) => {
   const badge = await waitFor(async () =>
     (await ui(page, 'aid-badge')).find((b) => b.attributes['aria-label']?.startsWith(prefix)),
   );
+  // Hover first: the neutral marker on unflagged images only takes clicks once revealed.
+  await page.mouse.move(...centre(badge.box));
+  await page.waitForTimeout(300);
   await page.mouse.click(...centre(badge.box));
   await waitFor(async () => (await ui(page, 'aid-popover-ready'))[0]);
   return { page, badge };
@@ -139,6 +142,22 @@ try {
     ),
     `REQ-F-009: a face-edit score at or over 50% is added to the same line (${facedText})`,
   );
+  await page.close();
+
+  console.log('\n# Unflagged image (ADR-011)');
+  ({ page } = await openPopover('Not flagged'));
+  const plain = await button(page);
+  check(
+    plain?.text.trim() === 'Get a second opinion',
+    'ADR-011: an unflagged image offers a second opinion too',
+  );
+  const sent = uploads.length;
+  await page.mouse.click(...centre(plain.box));
+  check(
+    !!(await waitFor(async () => (await ui(page, 'aid-second-opinion-result'))[0])),
+    'ADR-011: the second opinion for an unflagged image returns a result',
+  );
+  check(uploads.length === sent + 1, 'REQ-F-009: still exactly one image per click');
   await page.close();
 
   console.log('\n# Backend down');

@@ -10,9 +10,13 @@
   [style.width.px]="width()"
 >
   <div class="aid-popover-head">
-    <span class="aid-chip" [class.aid-chip-likely]="kind() === 'likely'" aria-hidden="true">{{
-      kind() === 'definite' ? 'AI' : 'AI?'
-    }}</span>
+    <span
+      class="aid-chip"
+      [class.aid-chip-likely]="kind() === 'likely'"
+      [class.aid-chip-neutral]="kind() === 'none'"
+      aria-hidden="true"
+      >{{ chipText(kind()) }}</span
+    >
     <div class="aid-popover-title">
       <strong>{{ details().title }}</strong>
       <span>{{ details().confidence }}</span>

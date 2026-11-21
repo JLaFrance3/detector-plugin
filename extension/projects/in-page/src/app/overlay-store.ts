@@ -40,6 +40,8 @@ export class OverlayStore {
   readonly openId = signal<number | null>(null);
   /** REQ-UI-004: "Hide on this page" removes every badge until the page is reloaded. */
   readonly hidden = signal(false);
+  /** Badge whose image the pointer is over; reveals the neutral marker (ADR-011). */
+  readonly hoveredId = signal<number | null>(null);
   /** Set when a closing popover should hand keyboard focus back to its badge. */
   readonly focusRequest = signal<number | null>(null);
   readonly viewport = signal<Viewport>({ scrollX: 0, scrollY: 0, width: 0, height: 0 });
@@ -144,6 +146,20 @@ export class OverlayStore {
       }
       this.scheduleMeasure();
     });
+
+    // ADR-011: the neutral marker on unflagged images appears while the pointer is over the
+    // image, or over the marker itself (events from inside the UI arrive as the host element).
+    document.addEventListener(
+      'mouseover',
+      (event) => {
+        const target = event.target;
+        if (target === this.hostElement) return;
+        const entry = target instanceof HTMLImageElement ? this.entries.get(target) : undefined;
+        const id = entry?.id ?? null;
+        if (id !== this.hoveredId()) this.hoveredId.set(id);
+      },
+      { capture: true, passive: true },
+    );
 
     // REQ-UI-005: the popover closes on Esc and on a click outside the extension's UI.
     document.addEventListener(

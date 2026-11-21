@@ -12,6 +12,7 @@ import {
 } from '@angular/core';
 import { CAVEAT, CHECKER_LINKS, describeResult } from '../../../../src/shared/details';
 import { placePopover, popoverWidth } from '../../../../src/shared/popover-position';
+import { chipText } from '../../../../src/shared/ui-bridge';
 import type { BadgeModel } from './overlay-store';
 import { HIT_SIZE, OverlayStore } from './overlay-store';
 
@@ -35,6 +36,7 @@ export class Popover {
   protected readonly kind = computed(() => this.badge().view.kind);
   protected readonly caveat = CAVEAT;
   protected readonly links = CHECKER_LINKS;
+  protected readonly chipText = chipText;
 
   private readonly panel = viewChild.required<ElementRef<HTMLElement>>('panel');
   /** Rendered height; 0 until the first measurement, during which the panel stays invisible. */

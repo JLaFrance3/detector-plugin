@@ -176,8 +176,12 @@ describe('badge text', () => {
     );
   });
 
-  it('REQ-UI-003: there is no badge text for None, so nothing implies "real"', () => {
-    expect(badgeTooltip(decideVerdict(signals({ detector: { score: 0.01 } })))).toBeNull();
+  it('REQ-UI-003: the neutral marker for None says "not flagged", never "real"', () => {
+    const text = badgeTooltip(decideVerdict(signals({ detector: { score: 0.01 } })));
+    expect(text).toBe('Not flagged · details');
+    for (const claim of ['real', 'authentic', 'human', 'verified', 'genuine', 'safe']) {
+      expect(text.toLowerCase()).not.toContain(claim);
+    }
   });
 
   it('REQ-UI-002: a score is never shown as 100%', () => {

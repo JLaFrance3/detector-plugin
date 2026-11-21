@@ -72,6 +72,34 @@
   font-size: 8.5px;
 }
 
+/* Neutral marker on unflagged images (ADR-011): grey, round, an information sign, never a
+   checkmark (REQ-UI-003). Hidden and click-through at rest so the page stays quiet; it
+   appears while the pointer is over the image, and when it has keyboard focus. */
+.aid-chip-neutral {
+  border-radius: 50%;
+  background: #3a3a3a;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-style: italic;
+  font-size: 12px;
+}
+
+.aid-badge.aid-neutral {
+  opacity: 0;
+  pointer-events: none;
+  animation: none;
+}
+
+.aid-badge.aid-neutral.aid-revealed,
+.aid-badge.aid-neutral:focus-visible {
+  opacity: 0.85;
+  pointer-events: auto;
+}
+
+.aid-badge.aid-neutral:hover,
+.aid-badge.aid-neutral.aid-open {
+  opacity: 1;
+}
+
 .aid-tip {
   position: absolute;
   top: 26px;

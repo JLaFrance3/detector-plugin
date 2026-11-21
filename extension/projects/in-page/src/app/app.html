@@ -7,6 +7,8 @@
         class="aid-badge"
         [class.aid-definite]="badge.view.kind === 'definite'"
         [class.aid-likely]="badge.view.kind === 'likely'"
+        [class.aid-neutral]="badge.view.kind === 'none'"
+        [class.aid-revealed]="store.hoveredId() === badge.id || store.openId() === badge.id"
         [class.aid-open]="store.openId() === badge.id"
         [style.left.px]="badge.left"
         [style.top.px]="badge.top"
@@ -19,8 +21,9 @@
         <span
           class="aid-chip"
           [class.aid-chip-likely]="badge.view.kind === 'likely'"
+          [class.aid-chip-neutral]="badge.view.kind === 'none'"
           aria-hidden="true"
-          >{{ badge.view.kind === 'definite' ? 'AI' : 'AI?' }}</span
+          >{{ chipText(badge.view.kind) }}</span
         >
         <span class="aid-tip" aria-hidden="true">{{ badge.view.tooltip }}</span>
       </button>

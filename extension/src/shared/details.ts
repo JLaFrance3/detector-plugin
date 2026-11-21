@@ -98,14 +98,15 @@ function detectorRow(result: ImageResult): SignalRow {
 }
 
 export function describeResult(result: ImageResult): DetailsView {
-  let confidence = '';
+  let confidence = result.verdict === 'none' ? 'No AI signal found' : '';
   if (result.confidence?.kind === 'credentials') confidence = 'Confirmed by Content Credentials';
   else if (result.confidence?.kind === 'metadata') confidence = 'Based on image metadata';
   else if (result.confidence?.kind === 'score') {
     confidence = `Detector score ${result.confidence.percent}%`;
   }
   return {
-    title: result.label ?? '',
+    // A None result is "not flagged", never "real" (REQ-UI-003).
+    title: result.label ?? 'Not flagged',
     confidence,
     rows: [credentialsRow(result), metadataRow(result), detectorRow(result)],
     note:

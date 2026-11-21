@@ -1,7 +1,7 @@
 ---
 id: TASK-027
 title: Add the deepfake model to the second opinion
-status: in-progress
+status: done
 milestone: M3
 requirements: [REQ-F-009, REQ-F-012, REQ-NF-005]
 depends_on: [TASK-018, TASK-019]
@@ -17,4 +17,4 @@ Request Sightengine's `deepfake` model alongside `genai` and show a face-edit sc
 - [x] A missing or malformed deepfake score never fails the check
 - [x] Popover adds "N% likely face-edited" to the same line only at 50% or more
 - [x] Badge, verdict and cache unchanged
-- [ ] Record the real `request.operations` per check and adjust `DAILY_CAP` if needed (with TASK-020)
+- [x] Record the real `request.operations` per check and adjust `DAILY_CAP` if needed (with TASK-020): 10 per check; cap kept at 100 by the owner

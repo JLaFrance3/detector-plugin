@@ -4,7 +4,7 @@
 | --- | --- |
 | Project | CYB 505 Practitioner Assignment (Fall 2026) |
 | Owner | Jean LaFrance (solo) |
-| Version | 0.5 draft, 2026-11-17 (second opinion adds Sightengine's deepfake model, ADR-009) |
+| Version | 0.5 draft, 2026-11-21 (multi-view detector, neutral marker on unflagged images) |
 | Source | [Research brief](https://claude.ai/artifact/EJUyaN6fcZo5qUfvjfCkLS), decisions agreed 2026-11-04 |
 
 ## 1. Purpose and scope
@@ -84,9 +84,10 @@ The offscreen document shall score images with an on-device image classifier (th
 - No image data leaves the browser for this step.
 - The model is downloaded once on first use and cached (REQ-F-011).
 - At most 2 images are scored at a time; others wait in a queue.
+- Each image is scored as up to three views (full, half size, centre crop) and the highest score counts (ADR-010).
 
 ### REQ-F-007 Show the badge (H)
-For a Definite or Likely verdict, the extension shall show a badge on the image as specified in REQ-UI-001 to REQ-UI-004. For a None verdict, nothing is shown.
+For a Definite or Likely verdict, the extension shall show a badge on the image as specified in REQ-UI-001 to REQ-UI-004. For a None verdict it shows only a neutral marker that is hidden at rest and appears on hover or focus, so that the details and the second opinion stay reachable (ADR-011). The neutral marker never implies the image is real (REQ-UI-003).
 
 ### REQ-F-008 Details popover (H)
 Clicking the badge shall open a details popover (REQ-UI-005) showing:
@@ -254,5 +255,5 @@ All text taken from C2PA manifests or IPTC/XMP metadata is untrusted.
 | --- | --- | --- |
 | Model download size and inference time in the browser | REQ-F-006, REQ-NF-001 | **Resolved 2026-11-15 (TASK-005):** 87 MB (WebGPU, full precision) or 23 MB (WASM, 8-bit). Median inference 47 ms on WebGPU and 440 ms on WASM, both inside the 1 s budget |
 | Sightengine operations per check with the genai and deepfake models (sample genai response shows 5; deepfake is billed on top, ADR-009) | REQ-NF-005 | **Resolved 2026-11-21 (TASK-018):** 10 operations per check, measured on the deployed backend. The free tier (500 a day, 2,000 a month) therefore covers about 200 checks a month. `DAILY_CAP` stays at 100 by the owner’s choice: occasional use, and overage within the $10 budget is acceptable |
-| Calibrated threshold T | REQ-F-005, REQ-NF-006 | **Resolved 2026-11-16 (TASK-022):** T = 0.50. On 228 scored images: 0 of 128 real photos flagged, 57 of 100 AI images detected (64% of originals, 50% of recompressed copies) |
+| Calibrated threshold T | REQ-F-005, REQ-NF-006 | **Resolved 2026-11-16 (TASK-022):** T = 0.50. On 228 scored images: 0 of 128 real photos flagged, 57 of 100 AI images detected (64% of originals, 50% of recompressed copies) Updated 2026-11-21 with multi-view scoring (ADR-010): 63 of 100 AI images detected (76% of originals), still 0 of 128 real photos flagged |
 | Whether `c2pa-web` exposes trust-list validation directly or it must be configured | REQ-SEC-007 | **Resolved 2026-11-15 (TASK-004):** it must be configured. The extension bundles the C2PA trust lists and passes them as trust anchors; a `validation_state` of `Trusted` is required for Definite |

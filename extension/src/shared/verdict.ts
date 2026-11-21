@@ -73,13 +73,16 @@ export function decideVerdict(signals: ImageSignals, threshold = DEFAULT_THRESHO
   return { ...base, verdict: 'none', label: null, confidence: null };
 }
 
-/** Tooltip and accessible name for the badge (REQ-UI-002). Null when there is no badge. */
-export function badgeTooltip(result: ImageResult): string | null {
+/** Text of the neutral marker on unflagged images (ADR-011). Never claims the image is real. */
+export const NEUTRAL_TOOLTIP = 'Not flagged · details';
+
+/** Tooltip and accessible name for the badge or neutral marker (REQ-UI-002, ADR-011). */
+export function badgeTooltip(result: ImageResult): string {
   if (result.verdict === 'definite') return `${result.label} (Content Credentials)`;
   if (result.verdict === 'likely') {
     return result.confidence?.kind === 'score'
       ? `Likely AI · ${result.confidence.percent}%`
       : 'Likely AI · metadata';
   }
-  return null;
+  return NEUTRAL_TOOLTIP;
 }

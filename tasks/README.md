@@ -44,7 +44,7 @@ Workflow: set `status: in-progress` when starting, tick acceptance criteria as t
 | [TASK-018](TASK-018-backend-check-endpoint.md) | Backend POST /v1/check | REQ-F-012, REQ-SEC-004, REQ-SEC-005, REQ-SEC-006, REQ-NF-005, REQ-PRV-002 | TASK-001 | done |
 | [TASK-019](TASK-019-second-opinion-flow.md) | Second-opinion flow in the extension | REQ-F-009, REQ-PRV-002, REQ-NF-002 | TASK-016, TASK-018 | done |
 | [TASK-020](TASK-020-deploy-backend.md) | Deploy backend to the droplet | REQ-SEC-005 | TASK-018 | done |
-| [TASK-027](TASK-027-deepfake-second-opinion.md) | Add the deepfake model to the second opinion | REQ-F-009, REQ-F-012, REQ-NF-005 | TASK-018, TASK-019 | in-progress |
+| [TASK-027](TASK-027-deepfake-second-opinion.md) | Add the deepfake model to the second opinion | REQ-F-009, REQ-F-012, REQ-NF-005 | TASK-018, TASK-019 | done |
 
 ## M4: Evaluate, harden, present (week of Nov 30 to Dec 7)
 
@@ -55,3 +55,10 @@ Workflow: set `status: in-progress` when starting, tick acceptance criteria as t
 | [TASK-023](TASK-023-performance-and-sites.md) | Performance and cross-site check | REQ-NF-001, REQ-UI-006 | TASK-015, TASK-016 | done |
 | [TASK-025](TASK-025-security-review.md) | Security review before submission | REQ-SEC-002, REQ-SEC-004, REQ-SEC-008, REQ-SEC-009, REQ-PRV-001, REQ-PRV-003 | TASK-017, TASK-019, TASK-020 | done |
 | [TASK-026](TASK-026-presentation.md) | Presentation and demo script | - | TASK-021, TASK-022, TASK-023, TASK-025 | in-progress |
+
+## Follow-ups
+
+| Task | Title | Requirements | Depends on | Status |
+| --- | --- | --- | --- | --- |
+| [TASK-028](TASK-028-multi-view-detector.md) | Score several views of each image | REQ-F-006, REQ-NF-001, REQ-NF-006 | TASK-012, TASK-022 | done |
+| [TASK-029](TASK-029-neutral-marker.md) | Neutral marker on unflagged images | REQ-F-007, REQ-F-008, REQ-F-009, REQ-UI-003, REQ-UI-004 | TASK-015, TASK-016, TASK-019 | done |

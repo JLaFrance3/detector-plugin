@@ -238,11 +238,29 @@ try {
     'REQ-F-007: Likely badge on the metadata image',
   );
   await page.waitForTimeout(1500);
-  check((await badgeOn('none')) === null, 'REQ-F-007: nothing shown for a None verdict');
+  const noneMarker = await badgeOn('none');
   check(
-    (await findInExtensionUi(page, 'aid-badge')).length === 2,
-    'REQ-F-001: only flagged images in the viewport are badged',
+    label(noneMarker) === 'Not flagged · details' &&
+      noneMarker.attributes.class.includes('aid-neutral') &&
+      !noneMarker.attributes.class.includes('aid-revealed'),
+    'REQ-F-007, ADR-011: a None image gets only a hidden neutral marker',
   );
+  const flagged = (found) => found.filter((b) => !b.attributes.class.includes('aid-neutral'));
+  check(
+    flagged(await findInExtensionUi(page, 'aid-badge')).length === 2,
+    'REQ-F-001: only flagged images in the viewport get a badge',
+  );
+  // ADR-011: hovering the image reveals its marker.
+  const noneRect = await page.evaluate(() => {
+    const r = document.getElementById('none').getBoundingClientRect();
+    return { x: r.x + r.width / 2, y: r.y + r.height / 2 };
+  });
+  await page.mouse.move(noneRect.x, noneRect.y);
+  check(
+    await waitFor(async () => (await badgeOn('none'))?.attributes.class.includes('aid-revealed')),
+    'ADR-011: hovering an unflagged image reveals its marker',
+  );
+  await page.mouse.move(5, 5);
   check(
     site.hits('/c2pa/adobe-20220124-A.jpg', 'extension') - before === 1,
     'REQ-F-001: an image shown twice is checked once',
@@ -314,8 +332,8 @@ try {
     document.getElementById('added').src = 'c2pa/adobe-20220124-A.jpg?swapped=1';
   });
   check(
-    await waitFor(async () => (await badgeOn('added')) === null),
-    'REQ-F-001: badge removed when the image source changes',
+    await waitFor(async () => label(await badgeOn('added')) === 'Not flagged · details'),
+    'REQ-F-001: the badge follows the new source (here a None image, so the neutral marker)',
   );
   check(
     await waitFor(() => site.hits('/c2pa/adobe-20220124-A.jpg', 'extension') === swapBefore + 1),

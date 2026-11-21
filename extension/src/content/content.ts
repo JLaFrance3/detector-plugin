@@ -47,10 +47,11 @@ async function onCandidate(image: HTMLImageElement, url: string): Promise<void> 
   const result = await check(url);
   // The image may have changed source or left the page while the check ran.
   if (current.get(image) !== url || !image.isConnected) return;
-  const tooltip = result ? badgeTooltip(result) : null;
-  // REQ-F-007: nothing is shown for a None verdict.
-  if (!result || result.verdict === 'none' || tooltip === null) return;
-  getInPageUi()?.showBadge(image, { kind: result.verdict, tooltip, result });
+  // No result (the image could not be fetched or checked): nothing to show or re-check.
+  if (!result) return;
+  // REQ-F-007, ADR-011: a badge for Definite and Likely; a neutral marker, shown only on
+  // hover or focus, for None so that a second opinion can be asked for any checked image.
+  getInPageUi()?.showBadge(image, { kind: result.verdict, tooltip: badgeTooltip(result), result });
 }
 
 /** ADR-009: face-edit scores below this are not shown. Same value as the verdict threshold T. */

@@ -3,7 +3,8 @@
 // Only display-ready, sanitized fields cross this boundary (REQ-SEC-003).
 import type { ImageResult } from './types';
 
-export type BadgeKind = 'definite' | 'likely';
+/** 'none' is the neutral marker on checked images with no AI signal (ADR-011). */
+export type BadgeKind = 'definite' | 'likely' | 'none';
 
 export interface BadgeView {
   kind: BadgeKind;
@@ -52,4 +53,14 @@ export function getInPageUi(): InPageUi | undefined {
 
 export function registerInPageUi(ui: InPageUi): void {
   Object.defineProperty(globalThis, UI_GLOBAL, { value: ui, configurable: false, writable: false });
+}
+
+/**
+ * Text inside the chip. Definite and Likely differ by text and shape (REQ-UI-002); the neutral
+ * marker shows an information sign, never a checkmark (REQ-UI-003).
+ */
+export function chipText(kind: BadgeKind): string {
+  if (kind === 'definite') return 'AI';
+  if (kind === 'likely') return 'AI?';
+  return 'i';
 }
